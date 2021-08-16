@@ -1,0 +1,14 @@
+/.idea/
+/build/**
+/files/
+# https://stackoverflow.com/a/5285539
+/data/*
+!/data/examples/
+!/data/examples/*
+!/data/examples/**/*
+
+!.gitkeep
+/**/__debug.iss
+
+/**/*.log
+/**/*.lnk
