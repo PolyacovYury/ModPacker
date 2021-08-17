@@ -1,3 +1,7 @@
+[CustomMessages]
+en.AccessDenied=Could not get write access to install directory.
+ru.AccessDenied=Не удалось получить доступ к папке установки.
+
 [Code]
 // https://stackoverflow.com/a/35435534
 
@@ -16,11 +20,8 @@ var
 begin
   FileName := AddBackslash(WizardDirValue) + 'writetest.tmp';
   Result := SaveStringToFile(FileName, 'test', False);
-  if Result then begin
-    Log(Format('Write access to the last installation path provided: [%s]', [WizardDirValue]));
+  if Result then
     DeleteFile(FileName);
-  end else
-    Log(Format('Write access to the last installation path not provided: [%s]', [WizardDirValue]));
 end;
 
 procedure ExitProcess(uExitCode: UINT);
@@ -59,23 +60,16 @@ end;
 
 procedure ElevateIfNeeded;
 begin
-  if not IsWinVista then
-    Log(Format('This version of Windows [%x] does not support elevation', [GetWindowsVersion]))
-  else if IsAdminInstallMode then begin
-    Log('Running elevated');
-    Log(WizardDirValue);
-  end else begin
-    Log('Running non-elevated');
+  if IsWinVista then
     if not HaveWriteAccessToApp then
       if not Elevate then
         ElevateFailed := True;
-  end;
 end;
 
 <event('InitializeWizard')>
 procedure _Elevate__InitializeWizard;
 begin
-  Elevated := CmdLineParamExists('/ELEVATE');
+  Elevated := CMDCheckParams('/ELEVATE');
   ElevateFailed := False;
 end;
 
@@ -109,7 +103,3 @@ begin
   if ElevateFailed then
     Result := CustomMessage('AccessDenied');
 end;
-
-[CustomMessages]
-en.AccessDenied=Could not get write access to install directory.
-ru.AccessDenied=Не удалось получить доступ к папке установки.
