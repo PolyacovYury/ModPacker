@@ -1,12 +1,18 @@
 ﻿// © Kotyarko_O, 2020 \\
 
+[Files]
+Source: "data\img\gui\pages\1_welcome\WelcomeBg.jpg"; Flags: dontcopy;
+
 [Code]
 Var
  WelcomePage: TWizardPage;
+ WelcomeBackground: Longint;
 
 Procedure SetWelcomePageVisibility(Value: Boolean);
 begin
  WizardForm.BackButton.Visible := not Value;
+ ImgSetVisibility(WelcomeBackground, Value);
+ ImgApplyChanges(WizardForm.Handle);
 end;
 
 Procedure WelcomePageOnActivate(Sender: TWizardPage);
@@ -30,5 +36,6 @@ begin
   OnNextButtonClick := @WelcomePageOnNextButtonClick;
  end;
 
+ WelcomeBackground := ImgLoad(WizardForm.Handle, 'WelcomeBg.jpg', 0, 0, WizardForm.ClientWidth, ScaleY(477), True, True);
  SetWelcomePageVisibility(False);
 end;

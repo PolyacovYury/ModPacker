@@ -1,7 +1,7 @@
 ﻿// © Kotyarko_O, 2020 \\
 
 [Files]
-Source: "data\img\gui\WizardImage.jpg"; Flags: dontcopy;
+Source: "data\img\gui\window\WizardHeader.jpg"; Flags: dontcopy;
 
 [Code]
 Function GetDeviceCaps(hDC, nIndex: Integer): Integer; external 'GetDeviceCaps@GDI32 stdcall';
@@ -16,7 +16,7 @@ Const
 Var
  ScaleFactor: Integer;
  BotvaFont: TFont;
- Background: Longint;
+ WizardHeader: Longint;
 
 <event('InitializeWizard')>
 Procedure InitializeWindow();
@@ -51,7 +51,7 @@ begin
   Style := [];
  end;
 
- Background := ImgLoad(WizardForm.Handle, 'WizardImage.jpg', 0, 0, WizardForm.ClientWidth, ScaleY(477), True, True);
- ImgSetVisibility(Background, True);
+ WizardHeader := ImgLoad(WizardForm.Handle, 'WizardHeader.jpg', 0, 0, WizardForm.ClientWidth, ScaleY(80), True, True);
+ ImgSetVisibility(WizardHeader, True);
  ImgApplyChanges(WizardForm.Handle);
 end;
