@@ -17,10 +17,12 @@ SetupIconFile=data\img\icon.ico
 UninstallDisplayIcon="{uninstallexe}"
 
 //====={ Отключение страниц }=====\\
+DisableWelcomePage=yes
 DisableProgramGroupPage=yes
 DisableReadyPage=yes
-DisableDirPage=no
+DisableDirPage=yes
 DirExistsWarning=no
+DisableFinishedPage=yes
 
 //====={ Папка создания и название }=====\\
 OutputDir=build
