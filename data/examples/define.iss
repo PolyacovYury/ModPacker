@@ -7,5 +7,6 @@
 #define InstallerName "PYmodsInstaller"
 #define UninstallDirName "PYmods_uninstall"
 
-#define URL_KoreanRandom "https://koreanrandom.com/forum/"
-#define URL_WGMods "https://wgmods.net/"
+#define URL_Logo1 "https://koreanrandom.com/forum/"
+#define URL_Logo2 "https://wgmods.net/"
+#define URL_Logo3 "https://pymods.ru/"
