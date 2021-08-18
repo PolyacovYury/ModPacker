@@ -6,3 +6,6 @@
 #define GameVersion "1.14.0.0"
 #define InstallerName "PYmodsInstaller"
 #define UninstallDirName "PYmods_uninstall"
+
+#define URL_KoreanRandom "https://koreanrandom.com/forum/"
+#define URL_WGMods "https://wgmods.net/"
