@@ -1,4 +1,5 @@
 #define AppId "{5F05CE9B-7768-490E-9A71-C6R92B4EX123}"
+#define AppMutex "PYmodsMutex"
 #define AppVersion "1.0.0"
 #define AppPublisher "Polyacov_Yury"
 #define AppURL ""
