@@ -7,3 +7,4 @@ begin
  if not CMDCheckParams('/NOCHECKFORMUTEX') then
   CreateMutex('{#AppMutex}');
 end;
+#include "gui\__init__.iss"
