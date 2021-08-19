@@ -30,8 +30,7 @@ end;
 Procedure InitializeWelcomePage();
 begin
  WelcomePage := CreateCustomPage(wpWelcome, '', '');
- with WelcomePage do
- begin
+ with WelcomePage do begin
   OnActivate := @WelcomePageOnActivate;
   OnNextButtonClick := @WelcomePageOnNextButtonClick;
  end;

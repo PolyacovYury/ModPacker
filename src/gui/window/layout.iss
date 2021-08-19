@@ -11,8 +11,7 @@ Var
 <event('InitializeWizard')>
 Procedure InitializeWindow();
 begin
- with WizardForm do
- begin
+ with WizardForm do begin
   ClientWidth := ScaleX(760);
   ClientHeight := ScaleY(545);
   OuterNotebook.Hide;
@@ -25,8 +24,7 @@ begin
  end;
 
  BotvaFont := TFont.Create();
- with BotvaFont do
- begin
+ with BotvaFont do begin
   Name := 'Tahoma';
   Size := 10;
   Style := [];
