@@ -100,7 +100,7 @@ Procedure InitializeSelectDirPage();
 var
   RTFStr: AnsiString;
 begin
- SelectDirPage := CreateCustomPage(WelcomePage.ID, '', '');
+ SelectDirPage := CreateCustomPage(LicensePage.ID, '', '');
  with SelectDirPage do begin
   OnActivate := @SelectDirPageOnActivate;
   OnBackButtonClick := @SelectDirPageOnBackButtonClick;
