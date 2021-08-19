@@ -24,12 +24,6 @@ begin
     DeleteFile(FileName);
 end;
 
-procedure ExitProcess(uExitCode: UINT);
-  external 'ExitProcess@kernel32.dll stdcall';
-function ShellExecute(hwnd: HWND; lpOperation: string; lpFile: string;
-  lpParameters: string; lpDirectory: string; nShowCmd: Integer): THandle;
-  external 'ShellExecuteW@shell32.dll stdcall';
-
 function Elevate: Boolean;
 var
   I: Integer;

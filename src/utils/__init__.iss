@@ -1,3 +1,4 @@
+#include "user32.iss"
 #include "check_cmd_param.iss"
 #include "check_wot_running.iss"
 #include "elevate.iss"
@@ -16,4 +17,5 @@ end;
 procedure _vcl__DeinitializeSetup();
 begin
  UnLoadVCLStyles();
+ DelTree(ExpandConstant('{tmp}'), True, True, True);
 end;
