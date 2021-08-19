@@ -6,6 +6,8 @@ en.UninstallOld=Previous mod pack version detected that needs to be removed.%nYo
 ru.UninstallOld=Обнаружена предыдущая версия модпака. Она будет удалена.%nПредыдущий набор выбранных модов будет восстановлен.%n%nНажмите OK, чтобы запустить деинсталлятор.
 
 [Code]
+var
+  DefDir: String;
 function StripAndCheckExists(path: string; defaulted: Boolean): string;
 var
   I: Integer;
@@ -24,7 +26,6 @@ end;
 
 function GetDefDirName(Param: string): string;
 var
-  DefDir: String;
   UninsResult: Integer;
   S: string;
 begin
@@ -47,7 +48,5 @@ begin
           Exec('>', S, '', SW_SHOW, ewWaitUntilTerminated, UninsResult);
     end;
   end;
-  if Result = '' then
-    Result := ExpandConstant('{autopf}\') + 'World_of_Tanks';
   DefDir := Result;
 end;

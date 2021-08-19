@@ -134,6 +134,7 @@ Procedure InitializeFindWOT();
 begin
  SetLength(FindWOTBuff, 1024);
  WOTListUpdate();
+ WOTListAddClient(DefDir);
 
  if WOTList.ItemIndex = -1 then
   WOTList.ItemIndex := 0;
