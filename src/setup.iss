@@ -28,7 +28,7 @@ DisableFinishedPage=yes
 OutputDir=build
 OutputBaseFilename="{#InstallerName}"
 UninstallFilesDir="{app}\{#UninstallDirName}"
-DefaultDirName={pf}\World_of_Tanks
+DefaultDirName={code:GetDefDirName}
 AppendDefaultDirName=no
 
 //====={ —жатие }=====\\
