@@ -299,21 +299,21 @@ end;
 Function ImgLoad(Wnd: HWND; FileName: PAnsiChar; Left, Top, Width, Height: Integer; Stretch, IsBkg: Boolean): Longint;
 begin
  if not FileExists(ExpandConstant('{tmp}\' + FileName)) then
-  ExtractTemporaryFile(FileName);
+  ExtractTemporaryFiles(FileName);
  Result := _ImgLoad(Wnd, ExpandConstant('{tmp}\' + FileName), Left, Top, Width, Height, Stretch, IsBkg);
 end;
 
 Function BtnCreate(hParent: HWND; Left, Top, Width, Height: Integer; FileName: PAnsiChar; ShadowWidth: Integer; IsCheckBtn: Boolean): HWND;
 begin
  if not FileExists(ExpandConstant('{tmp}\' + FileName)) then
-  ExtractTemporaryFile(FileName);
+  ExtractTemporaryFiles(FileName);
  Result := _BtnCreate(hParent, Left, Top, Width, Height, ExpandConstant('{tmp}\' + FileName), ShadowWidth, IsCheckBtn);
 end;
 
 Function CheckBoxCreate(hParent: HWND; Left, Top, Width, Height: Integer; FileName: PAnsiChar; GroupID, TextIndent: Integer): HWND;
 begin
  if not FileExists(ExpandConstant('{tmp}\' + FileName)) then
-  ExtractTemporaryFile(FileName);
+  ExtractTemporaryFiles(FileName);
  Result := _CheckBoxCreate(hParent, Left, Top, Width, Height, ExpandConstant('{tmp}\' + FileName), GroupID, TextIndent);
 end;
 
