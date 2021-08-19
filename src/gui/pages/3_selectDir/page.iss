@@ -162,6 +162,8 @@ begin
   BorderStyle := bsSingle;
   BevelKind := bkTile;
   Color := clGray;
+  Font.Size := 14;
+  ScrollBars := ssVertical;
   SetBounds(ScaleX(8), DirBgShape1.Top + DirBgShape1.Height + ScaleY(16), WizardForm.ClientWidth - ScaleX(16), ScaleY(477 - 16) - DirBgShape1.Top - DirBgShape1.Height);
   RTFText := RTFStr;
  end;
