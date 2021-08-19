@@ -39,3 +39,9 @@ SolidCompression=true
 //====={ Разное }=====\\
 PrivilegesRequired=lowest
 CreateUninstallRegKey=yes
+
+[Code]
+Const
+ CMD_NoSearchGameFiles = '/NOSEARCHGAMEFILES';
+ CMD_NoCheckForMutex = '/NOCHECKFORMUTEX';
+ CMD_NoCheckForRun = '/NOCHECKFORRUN';

@@ -5,9 +5,6 @@ en.runningApplicationFound=Running "World of Tanks" application found.%nIt is re
 ru.runningApplicationFound=ќбнаружено запущенное приложение "World of Tanks".%nѕеред продолжением требуетс€ закрыть все экземпл€ры приложени€.
 
 [Code]
-Const
- CMD_NoCheckForRun = '/NOCHECKFORRUN';
-
 Function CheckForGameRun(): Boolean;
 var
  ResultCode: Integer;
