@@ -1,7 +1,7 @@
 ﻿// © Kotyarko_O, 2020 \\
 
 [Files]
-Source: "data\img\gui\window\WizardHeader.jpg"; Flags: dontcopy;
+Source: "data\img\gui\window\header.jpg"; DestDir: "data\img\gui\window\"; Flags: dontcopy;
 
 [Code]
 Var
@@ -30,7 +30,7 @@ begin
   Style := [];
  end;
 
- WizardHeader := ImgLoad(WizardForm.Handle, 'WizardHeader.jpg', 0, 0, WizardForm.ClientWidth, ScaleY(80), True, True);
+ WizardHeader := ImgLoad(WizardForm.Handle, 'data\img\gui\window\header.jpg', 0, 0, WizardForm.ClientWidth, ScaleY(80), True, True);
  ImgSetVisibility(WizardHeader, True);
  ImgApplyChanges(WizardForm.Handle);
 end;
