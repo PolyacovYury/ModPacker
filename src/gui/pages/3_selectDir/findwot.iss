@@ -134,7 +134,7 @@ Procedure InitializeFindWOT();
 begin
  SetLength(FindWOTBuff, 1024);
  WOTListUpdate();
- WOTListAddClient(DefDir);
+ WOTListAddClient(WizardForm.DirEdit.Text);
 
  if WOTList.ItemIndex = -1 then
   WOTList.ItemIndex := 0;

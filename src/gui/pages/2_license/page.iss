@@ -28,8 +28,6 @@ begin
 end;
 
 Function LicensePageOnNextButtonClick(Sender: TWizardPage): Boolean;
-var
- PatchVersion, AppType: String;
 begin
  Result := True;
  SetLicensePageVisibility(False);
