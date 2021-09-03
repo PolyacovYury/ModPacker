@@ -6,3 +6,4 @@ DiskSpaceMBLabel=Требуется минимум [mb] Мб свободного дискового пространства.
 [CustomMessages]
 AppName=Модпак PYmods
 ForWOT=для World of Tanks %1
+UninstallProgram=Удалить %1
