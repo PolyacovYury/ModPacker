@@ -1,13 +1,22 @@
-// © Kotyarko_O, 2020 \\
-
 [Code]
-Function FilesExists(Files: Array of String): Boolean;
+function StripAndCheckExists(path: string; defaulted: Boolean): string;
 var
- I: Integer;
+  I: Integer;
 begin
- Result := False;
- for I := 0 to GetArrayLength(Files) - 1 do
-  if not FileExists(ExpandConstant(Files[I])) then
-   Exit;
- Result := True;
+  Result := '';
+  path := Trim(path);
+  if defaulted then
+    Result := path;
+  I := Pos('\worldoftanks.exe', AnsiLowercase(path));
+  if Boolean(I) then
+    Result := Copy(path, 1, I);
+  StringChangeEx(Result, '"', '', True);
+  if not DirExists(Result) then
+    Result := '';
+end;
+
+<event('DeinitializeSetup')>
+procedure DeinitializeTemp();
+begin
+ DelTree(ExpandConstant('{tmp}'), True, True, True);
 end;

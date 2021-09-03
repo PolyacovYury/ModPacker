@@ -1,4 +1,4 @@
-﻿// Author: Sherogat \\
+// Author: Sherogat \\
 // http://krinkels.org/threads/xml.1902/ \\
 
 [Code]
