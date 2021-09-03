@@ -19,8 +19,8 @@ UninstallDisplayIcon="{uninstallexe}"
 //====={ Отключение страниц }=====\\
 DisableWelcomePage=yes
 DisableProgramGroupPage=yes
-DisableReadyPage=yes
-DisableDirPage=yes
+DisableReadyPage=no
+DisableDirPage=no
 DirExistsWarning=no
 DisableFinishedPage=yes
 
@@ -28,7 +28,7 @@ DisableFinishedPage=yes
 OutputDir=build
 OutputBaseFilename="{#InstallerName}"
 UninstallFilesDir="{app}\{#UninstallDirName}"
-DefaultDirName={code:GetDefDirName}
+DefaultDirName="{autopf}\World_of_Tanks"
 AppendDefaultDirName=no
 VersionInfoProductName=""
 VersionInfoDescription=""
@@ -47,3 +47,7 @@ Const
  CMD_NoSearchGameFiles = '/NOSEARCHGAMEFILES';
  CMD_NoCheckForMutex = '/NOCHECKFORMUTEX';
  CMD_NoCheckForRun = '/NOCHECKFORRUN';
+
+// This block is necessary, otherwise the installer does not restore components upon reinstall
+[Types]
+Name: "custom"; Description: "i"; Flags: iscustom
