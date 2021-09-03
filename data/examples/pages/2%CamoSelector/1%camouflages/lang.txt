@@ -1,0 +1,8 @@
+[en.name]
+Camouflages
+[en.desc]
+Custom camouflages
+[ru.name]
+Камуфляжи
+[ru.desc]
+Пользовательские камуфляжи

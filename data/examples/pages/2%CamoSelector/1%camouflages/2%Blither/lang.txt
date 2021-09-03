@@ -1,0 +1,8 @@
+[en.name]
+Blither!
+[en.desc]
+Camouflages by Blither!
+[ru.name]
+Blither!
+[ru.desc]
+Камуфляжи от Blither!

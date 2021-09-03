@@ -1,2 +1,3 @@
-#include "bass\previewSounds.iss"
-#include "checkListBoxSrc.iss"
+#include "vars.iss"
+#include "impl.iss"
+#include "page.iss"

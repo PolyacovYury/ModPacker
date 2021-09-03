@@ -1,0 +1,8 @@
+[en.name]
+Paints
+[en.desc]
+Custom paints
+[ru.name]
+Краски
+[ru.desc]
+Пользовательские краски

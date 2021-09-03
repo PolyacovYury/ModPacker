@@ -1,0 +1,10 @@
+[en.name]
+Camouflage Selector
+[en.desc]
+ - Installing random camouflages on all vehicles in battle and hangar
+ - Installing for free and adding own existing customization elements
+[ru.name]
+Установщик камуфляжей (CamoSelector)
+[ru.desc]
+ - Установка случайных камуфляжей на все машины в бою и ангаре
+ - Бесплатная установка существующих и добавление своих элементов внешнего вида

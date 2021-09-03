@@ -1,0 +1,4 @@
+[en.name]
+CamoSelector additions
+[ru.name]
+Дополнительные элементы внешнего вида

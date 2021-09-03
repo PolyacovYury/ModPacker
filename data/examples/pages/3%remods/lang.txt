@@ -1,0 +1,4 @@
+[en.name]
+Vehicle Remodels
+[ru.name]
+Ремоделинги танков

@@ -1,0 +1,10 @@
+[en.name]
+ModsSettings & ModsList
+[en.desc]
+Add ability to change mods' settings from within the game client
+Authors: IzeBerg, P0LIR0ID
+[ru.name]
+ModsSettings и ModsList
+[ru.desc]
+Добавляют возможность изменять настройки модов из клиента игры
+Авторы: IzeBerg, P0LIR0ID

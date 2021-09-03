@@ -1,0 +1,8 @@
+[en.name]
+Projection decals
+[en.desc]
+Custom projection decals
+[ru.name]
+Декали
+[ru.desc]
+Пользовательские декали

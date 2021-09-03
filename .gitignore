@@ -6,6 +6,7 @@
 !/data/examples/
 !/data/examples/*
 !/data/examples/**/*
+/src_generated/**/*
 
 !.gitkeep
 /**/__debug.iss

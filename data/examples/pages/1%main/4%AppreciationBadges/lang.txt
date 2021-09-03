@@ -1,0 +1,8 @@
+[en.name]
+AppreciationBadges
+[en.desc]
+Allows adding a client-only custom badge
+[ru.name]
+Нашивки Увожения (AppreciationBadges)
+[ru.desc]
+Позволяет добавить собственную нашивку, видную только вам
