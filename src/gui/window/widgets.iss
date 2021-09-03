@@ -1,10 +1,10 @@
 ﻿// © Kotyarko_O, 2020 \\
 [Files]
-Source: "data\img\gui\window\widgets\logoBtn1.png"; DestDir: "data\img\gui\window\widgets\"; Flags: dontcopy;
-Source: "data\img\gui\window\widgets\logoBtn2.png"; DestDir: "data\img\gui\window\widgets\"; Flags: dontcopy;
-Source: "data\img\gui\window\widgets\logoBtn3.png"; DestDir: "data\img\gui\window\widgets\"; Flags: dontcopy;
-Source: "data\img\gui\window\checkBox.png"; DestDir: "data\img\gui\window\"; Flags: dontcopy;
-Source: "data\img\gui\window\radioButton.png"; DestDir: "data\img\gui\window\"; Flags: dontcopy;
+Source: "data\img\gui\window\widgets\logoBtn1.png"; DestDir: "data\img\gui\window\widgets\"; Flags: ignoreversion nocompression dontcopy;
+Source: "data\img\gui\window\widgets\logoBtn2.png"; DestDir: "data\img\gui\window\widgets\"; Flags: ignoreversion nocompression dontcopy;
+Source: "data\img\gui\window\widgets\logoBtn3.png"; DestDir: "data\img\gui\window\widgets\"; Flags: ignoreversion nocompression dontcopy;
+Source: "data\img\gui\window\checkBox.png"; DestDir: "data\img\gui\window\"; Flags: ignoreversion nocompression dontcopy;
+Source: "data\img\gui\window\radioButton.png"; DestDir: "data\img\gui\window\"; Flags: ignoreversion nocompression dontcopy;
 
 [Code]
 Var
@@ -24,15 +24,33 @@ end;
 <event('InitializeWizard')>
 Procedure InitializeWidgets();
 begin
- LogoBtn1 := BtnCreate(WizardForm.Handle, ScaleX(8), WizardForm.ClientHeight - ScaleY(44), 40, 40, 'data\img\gui\window\widgets\logoBtn1.png', 0, False);
+ LogoBtn1 := BtnCreate(
+  WizardForm.Handle,
+  ScaleX(8),
+  WizardForm.ClientHeight - ScaleY(44),
+  40,
+  40,
+  'data\img\gui\window\widgets\logoBtn1.png', 0, False);
  BtnSetCursor(LogoBtn1, GetSysCursorHandle(OCR_HAND));
  BtnSetEvent(LogoBtn1, BtnClickEventID, WrapBtnCallback(@WidgetsOnClick, 1));
 
- LogoBtn2 := BtnCreate(WizardForm.Handle, ScaleX(44), WizardForm.ClientHeight - ScaleY(44), 40, 40, 'data\img\gui\window\widgets\logoBtn2.png', 0, False);
+ LogoBtn2 := BtnCreate(
+  WizardForm.Handle,
+  ScaleX(44),
+  WizardForm.ClientHeight - ScaleY(44),
+  40,
+  40,
+  'data\img\gui\window\widgets\logoBtn2.png', 0, False);
  BtnSetCursor(LogoBtn2, GetSysCursorHandle(OCR_HAND));
  BtnSetEvent(LogoBtn2, BtnClickEventID, WrapBtnCallback(@WidgetsOnClick, 1));
 
- LogoBtn3 := BtnCreate(WizardForm.Handle, ScaleX(80), WizardForm.ClientHeight - ScaleY(44), 40, 40, 'data\img\gui\window\widgets\logoBtn3.png', 0, False);
+ LogoBtn3 := BtnCreate(
+  WizardForm.Handle,
+  ScaleX(80),
+  WizardForm.ClientHeight - ScaleY(44),
+  40,
+  40,
+  'data\img\gui\window\widgets\logoBtn3.png', 0, False);
  BtnSetCursor(LogoBtn3, GetSysCursorHandle(OCR_HAND));
  BtnSetEvent(LogoBtn3, BtnClickEventID, WrapBtnCallback(@WidgetsOnClick, 1));
 end;
@@ -57,7 +75,11 @@ begin
    LogoBtn2: Caption := '{#URL_Logo2}';
    LogoBtn3: Caption := '{#URL_Logo3}';
   end;
-  HintShape.SetBounds(Left - ScaleX(4), Top - ScaleY(2), HintLabel.Width + ScaleX(8), HintLabel.Height + ScaleY(4));
+  HintShape.SetBounds(
+   Left - ScaleX(4),
+   Top - ScaleY(2),
+   Width + ScaleX(8),
+   Height + ScaleY(4));
  end;
  HintVisible(True);
 end;

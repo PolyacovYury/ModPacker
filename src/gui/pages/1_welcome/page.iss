@@ -1,7 +1,7 @@
 ﻿// © Kotyarko_O, 2020 \\
 
 [Files]
-Source: "data\img\gui\pages\1_welcome\bg.jpg"; DestDir: "data\img\gui\pages\1_welcome\"; Flags: dontcopy;
+Source: "data\img\gui\pages\1_welcome\bg.jpg"; DestDir: "data\img\gui\pages\1_welcome\"; Flags: ignoreversion nocompression dontcopy;
 
 [Code]
 Var

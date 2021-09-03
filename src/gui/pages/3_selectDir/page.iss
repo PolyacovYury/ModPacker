@@ -18,8 +18,7 @@ en.cleanProfileButtonText=Clear game client profile (reset client settings and c
 ru.cleanProfileButtonText=Очистка профиля игрового клиента (сброс индивидуальных настроек и кэша).
 
 [Files]
-Source: "data\img\gui\pages\3_selectDir\directory.png"; DestDir: "data\img\gui\pages\3_selectDir\"; Flags: dontcopy;
-
+Source: "data\img\gui\pages\3_selectDir\directory.png"; DestDir: "data\img\gui\pages\3_selectDir\"; Flags: ignoreversion nocompression dontcopy;
 
 [Code]
 Var

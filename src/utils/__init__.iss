@@ -12,10 +12,3 @@ begin
 end;
 #include "xml.iss"
 #include "vcl\vcl.iss"
-[Code]
-<event('DeinitializeSetup')>
-procedure _vcl__DeinitializeSetup();
-begin
- UnLoadVCLStyles();
- DelTree(ExpandConstant('{tmp}'), True, True, True);
-end;

@@ -1,7 +1,7 @@
 ﻿// © Kotyarko_O, 2020 \\
 
 [Files]
-Source: "data\img\gui\window\header.jpg"; DestDir: "data\img\gui\window\"; Flags: dontcopy;
+Source: "data\img\gui\window\header.jpg"; DestDir: "data\img\gui\window\"; Flags: ignoreversion nocompression dontcopy;
 
 [Code]
 Var

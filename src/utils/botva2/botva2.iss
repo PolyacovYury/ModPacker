@@ -1,6 +1,6 @@
 ﻿[Files]
-Source: "src\utils\botva2\botva2.dll"; Flags: dontcopy;
-Source: "src\utils\botva2\CallbackCtrl.dll"; Flags: dontcopy;
+Source: "src\utils\botva2\botva2.dll"; Flags: ignoreversion nocompression dontcopy;
+Source: "src\utils\botva2\CallbackCtrl.dll"; Flags: ignoreversion nocompression dontcopy;
 
 [Code]
 //модуль для работы с библиотекой botva2.dll версии  0.9.9
@@ -330,4 +330,10 @@ begin
     CheckBoxGetText_(hBtn, PAnsiChar(buf), NewSize);
   end;
   Result := string(buf);
+end;
+
+<event('DeinitializeSetup')>
+procedure DeinitializeBotva();
+begin
+ gdipShutdown();
 end;
