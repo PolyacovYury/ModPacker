@@ -30,6 +30,8 @@ OutputBaseFilename="{#InstallerName}"
 UninstallFilesDir="{app}\{#UninstallDirName}"
 DefaultDirName={code:GetDefDirName}
 AppendDefaultDirName=no
+VersionInfoProductName=""
+VersionInfoDescription=""
 
 //====={ —жатие }=====\\
 InternalCompressLevel=ultra64
