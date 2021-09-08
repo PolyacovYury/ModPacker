@@ -3,7 +3,12 @@ Polyacov_Yury`s ModPack tool for World of Tanks
 This project includes parts of code, developed at:
  - http://krinkels.org/
 
-And uses software, developed at:
+And by:
+ - Kotyarko_O
+ - people at StackOverflow (links provided in code comments)
+
+This project uses software, developed at:
  - http://jrsoftware.org/
  - https://github.com/RRUZ/vcl-styles-plugins/wiki/Inno-Setup
  - http://www.un4seen.com/
+ - https://github.com/lorents17/iCatalyst

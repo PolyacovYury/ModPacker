@@ -1,6 +1,5 @@
 /.idea/
 /build/**
-/files/
 # https://stackoverflow.com/a/5285539
 /data/*
 !/data/examples/
