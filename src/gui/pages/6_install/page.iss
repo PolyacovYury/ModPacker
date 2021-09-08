@@ -28,14 +28,14 @@ begin
 end;
 
 <event('CurInstallProgressChanged')>
-procedure InstallProgressChanged(CurProgress, MaxProgress: Integer);
+procedure InstallProgressChanged(Progress, MaxProgress: Integer);
 begin
  if (WizardForm.StatusLabel.Caption <> SetupMessage(msgStatusExtractFiles)) then begin
   InstComponentLabel.Width := WizardForm.ClientWidth - InstComponentLabel.Left * 2;
   InstComponentLabel.Caption := WizardForm.StatusLabel.Caption;
  end;
  InstProgressLabel.Width := WizardForm.ClientWidth - InstProgressLabel.Left * 2;
- InstProgressLabel.Caption := Format(CustomMessage('instProgressLabelText'), [(CurProgress * 100) / MaxProgress]);
+ InstProgressLabel.Caption := Format(CustomMessage('instProgressLabelText'), [(Progress * 100) / MaxProgress]);
 end;
 
 <event('InitializeWizard')>

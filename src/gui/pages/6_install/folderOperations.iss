@@ -6,12 +6,12 @@ ru.instStatusLabelTextProfileClearing=Очистка папки профиля �
 
 [Code]
 <event('CurStepChanged')>
-Procedure ClientFolderOperations(CurStep: TSetupStep);
+Procedure ClientFolderOperations(InstallStep: TSetupStep);
 var
  ResultCode: Integer;
  WoTAppData, WoTAppDataBackup: String;
 begin
- if CurStep = ssInstall then
+ if InstallStep = ssInstall then
  try
   if CheckBoxGetChecked(CBCleanProfile) then begin
    WoTAppData := ExpandConstant('{userappdata}\Wargaming.net\WorldOfTanks\');

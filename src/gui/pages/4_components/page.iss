@@ -17,10 +17,10 @@ Source: "data\img\gui\pages\4_components\preview_default.png"; DestDir: "data\im
 
 [Code]
 <event('CurPageChanged')>
-Procedure ComponentsPageOnActivate(CurPageID: Integer);
+Procedure ComponentsPageOnActivate(PageID: Integer);
 begin
- WizardForm.ComponentsDiskSpaceLabel.Visible := CurPageID = wpSelectComponents;
- if CurPageID <> wpSelectComponents then Exit;
+ WizardForm.ComponentsDiskSpaceLabel.Visible := PageID = wpSelectComponents;
+ if PageID <> wpSelectComponents then Exit;
  WizardForm.Update();
  if not CheckPageDep(ComponentsPageActiveIndex) then
   ChangeActiveComponentsIndex(False)
@@ -29,18 +29,18 @@ begin
 end;
 
 <event('BackButtonClick')>
-Function ComponentsPageOnBackButtonClick(CurPageID: Integer): Boolean;
+Function ComponentsPageOnBackButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
- if CurPageID <> wpSelectComponents then Exit;
+ if PageID <> wpSelectComponents then Exit;
  Result := ChangeActiveComponentsIndex(False);
 end;
 
 <event('NextButtonClick')>
-Function ComponentsPageOnNextButtonClick(CurPageID: Integer): Boolean;
+Function ComponentsPageOnNextButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
- if CurPageID <> wpSelectComponents then Exit;
+ if PageID <> wpSelectComponents then Exit;
  Result := ChangeActiveComponentsIndex(True);
 end;
 

@@ -19,9 +19,9 @@ Var
  CBCreateUninstallIcon, CBGameLaunch: Longint;
 
 <event('CurPageChanged')>
-Procedure FinishedPageOnActivate(CurPageID: Integer);
+Procedure FinishedPageOnActivate(PageID: Integer);
 begin
- if CurPageID <> FinishedPage.ID then Exit;
+ if PageID <> FinishedPage.ID then Exit;
  BringToFrontAndRestore;
  WizardForm.BackButton.Visible := False;
  WizardForm.NextButton.Caption := SetupMessage(msgButtonFinish);
@@ -30,13 +30,13 @@ begin
 end;
 
 <event('NextButtonClick')>
-Function FinishedPageOnNextButtonClick(CurPageID: Integer): Boolean;
+Function FinishedPageOnNextButtonClick(PageID: Integer): Boolean;
 var
  ErrorCode: Integer;
  UninstallLnk: String;
 begin
  Result := True;
- if CurPageID <> FinishedPage.ID then Exit;
+ if PageID <> FinishedPage.ID then Exit;
  UninstallLnk := ExpandConstant('{userdesktop}\{cm:UninstallProgram,{cm:AppName}}.lnk');
  if FileExists(UninstallLnk) then
   DeleteFile(UninstallLnk);
@@ -47,9 +47,9 @@ begin
 end;
 
 <event('CurUninstallStepChanged')>
-procedure FinishedUninstallStepChanged(CurUninstallStep: TUninstallStep);
+procedure FinishedUninstallStepChanged(UninstallStep: TUninstallStep);
 begin
- if CurUninstallStep = usUninstall then
+ if UninstallStep = usUninstall then
   DeleteFile(ExpandConstant('{userdesktop}\{cm:UninstallProgram,{cm:AppName}}.lnk'));
 end;
 

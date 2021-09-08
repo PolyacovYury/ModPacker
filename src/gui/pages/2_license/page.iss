@@ -4,9 +4,9 @@ ru.licenseAccept=Принимаю
 
 [Code]
 <event('CurPageChanged')>
-Procedure LicensePageOnActivate(CurPageID: Integer);
+Procedure LicensePageOnActivate(PageID: Integer);
 begin
- if CurPageID <> wpLicense then Exit;
+ if PageID <> wpLicense then Exit;
  WizardForm.NextButton.Caption := CustomMessage('licenseAccept');
 end;
 

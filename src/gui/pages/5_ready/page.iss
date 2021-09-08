@@ -2,11 +2,11 @@
 
 [Code]
 <event('CurPageChanged')>
-Procedure ReadyPageOnActivate(CurPageID: Integer);
+Procedure ReadyPageOnActivate(PageID: Integer);
 var
  I, J: Integer;
 begin
- if CurPageID <> wpReady then Exit;
+ if PageID <> wpReady then Exit;
  WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
  WizardForm.NextButton.Enabled := False;
  for I := 0 to GetArrayLength(ComponentsLists) - 1 do
@@ -19,10 +19,10 @@ begin
 end;
 
 <event('NextButtonClick')>
-Function ReadyPageOnNextButtonClick(CurPageID: Integer): Boolean;
+Function ReadyPageOnNextButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
- if CurPageID <> wpReady then Exit;
+ if PageID <> wpReady then Exit;
  PreparingActions();
 end;
 

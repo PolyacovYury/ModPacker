@@ -9,16 +9,16 @@ Var
  WelcomeBackground: Longint;
 
 <event('CurPageChanged')>
-Procedure WelcomePageOnActivate(CurPageID: Integer);
+Procedure WelcomePageOnActivate(PageID: Integer);
 begin
  with WizardForm.InnerNotebook do begin
-  if CurPageID = WelcomePage.ID then
+  if PageID = WelcomePage.ID then
    Top := 0
   else
    Top := ScaleY(80);
   ClientHeight := ScaleY(467) - Top;
  end;
- if (CurPageID = WelcomePage.ID) and (WelcomeBackground = -1) then
+ if (PageID = WelcomePage.ID) and (WelcomeBackground = -1) then
   WelcomeBackground := ImgLoad(
    WelcomePage.Surface.Handle, 'data\img\gui\pages\1_welcome\bg.jpg',
    0, 0, WizardForm.ClientWidth, ScaleY(477), True, False);

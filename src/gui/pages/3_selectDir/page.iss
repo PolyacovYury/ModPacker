@@ -94,19 +94,19 @@ begin
 end;
 
 <event('CurPageChanged')>
-Procedure SelectDirPageOnActivate(CurPageID: Integer);
+Procedure SelectDirPageOnActivate(PageID: Integer);
 begin
- if CurPageID <> wpSelectDir then Exit;
+ if PageID <> wpSelectDir then Exit;
  InitializeFindWOT();
 end;
 
 <event('NextButtonClick')>
-Function SelectDirPageOnNextButtonClick(CurPageID: Integer): Boolean;
+Function SelectDirPageOnNextButtonClick(PageID: Integer): Boolean;
 var
  PatchVersion, AppType: String;
 begin
  Result := True;
- if CurPageID <> wpSelectDir then Exit;
+ if PageID <> wpSelectDir then Exit;
  if CMDCheckParams(CMD_NoSearchGameFiles) then begin
   Exit;
  end;

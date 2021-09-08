@@ -43,14 +43,14 @@ begin
 end;
 
 <event('CurUninstallStepChanged')>
-procedure PreparingUninstallStepChanged(CurUninstallStep: TUninstallStep);
+procedure PreparingUninstallStepChanged(UninstallStep: TUninstallStep);
 var
  FileName: String;
 begin
- if CurUninstallStep = usUninstall then begin
+ if UninstallStep = usUninstall then begin
   FileName := ExpandConstant('{app}\{#UninstallDirName}.tmp');
   SaveStringToFile(FileName, 'temp', False);
- end else if CurUninstallStep = usDone then begin
+ end else if UninstallStep = usDone then begin
   FileName := ExpandConstant('{app}\{#UninstallDirName}.tmp');
   DeleteFile(FileName);
  end;
