@@ -10,7 +10,8 @@ var
   Elevated: Boolean;
   ElevateFailed: Boolean;
   ElevateAnimTimer: LongWord;
-  ElevateMemo: TMemo;
+  ElevateMarquee: TOutputMarqueeProgressWizardPage;
+  ElevateMarqueeText: TLabel;
 
 function IsWinVista: Boolean;
 begin
@@ -21,7 +22,7 @@ function HaveWriteAccessToApp: Boolean;
 var
   FileName: string;
 begin
-  FileName := AddBackslash(WizardDirValue) + 'writetest.tmp';
+  FileName := AddBackslash(WizardDirValue) + 'write_test.tmp';
   Result := SaveStringToFile(FileName, 'test', False);
   if Result then
     DeleteFile(FileName);
@@ -55,95 +56,97 @@ begin
     Log(Format('Elevation failed [%s]', [SysErrorMessage(RetVal)]));
 end;
 
-procedure ElevateIfNeeded;
+procedure ElevateIfNeeded();
 begin
-  if IsWinVista then
-    if not HaveWriteAccessToApp then
-      if not Elevate then
+  if IsWinVista() then
+    if not HaveWriteAccessToApp() then
+      if not Elevate() then
         ElevateFailed := True;
 end;
 
 <event('InitializeWizard')>
 procedure _Elevate__InitializeWizard;
 begin
-  Elevated := CMDCheckParams('/ELEVATE');
-  ElevateFailed := False;
-end;
-
-<event('ShouldSkipPage')>
-function _Elevate__ShouldSkipPage(PageID: Integer): Boolean;
-begin
-  Result := False;
-  if (
-    (PageID = wpWelcome) or (PageID = wpLicense) or (PageID = wpSelectDir) or (PageID = wpInfoBefore)
-    or (PageID = WelcomePage.ID)
-  ) and Elevated then
-   Result := True;
+ Elevated := CMDCheckParams('/ELEVATE');
+ ElevateFailed := False;
+ ElevateMarquee := CreateOutputMarqueeProgressPage('', '');
+ with ElevateMarquee do begin
+  Msg1Label.Visible := False;
+  Msg2Label.Visible := False;
+ end;
+ ElevateMarqueeText := TLabel.Create(ElevateMarquee);
+ with ElevateMarqueeText do begin
+  Parent := ElevateMarquee.Surface;
+  Alignment := taCenter;
+  WordWrap := True;
+  AutoSize := True;
+  Color := clWhite;
+  Font.Size := 12;
+  Font.Style := [fsBold];
+  Top := ScaleY(8);
+  Width := Parent.ClientWidth - ScaleY(16);
+  Caption := CustomMessage('AccessDeniedLaunchingElevated');
+  Left := (Parent.ClientWidth - Width) div 2;
+ end;
+ with ElevateMarquee.ProgressBar do begin
+  Top := ElevateMarqueeText.Top + ElevateMarqueeText.Height + ScaleY(16);
+ end;
 end;
 
 <event('CurPageChanged')>
-procedure _Elevate__CurPageChanged(CurPageID: Integer);
+procedure _Elevate__CurPageChanged(PageID: Integer);
 begin
- if CurPageID <> wpSelectDir then exit;
- if ElevateMemo <> nil then
-  ElevateMemo.Visible := False;
+ if Elevated then begin
+  if (
+    (PageID = wpWelcome) or (PageID = wpLicense) or (PageID = wpSelectDir) or (PageID = wpInfoBefore)
+    or (PageID = WelcomePage.ID)
+  ) then begin
+   WizardForm.NextButton.OnClick(WizardForm.NextButton);
+  end else begin
+   Elevated := False;
+  end;
+ end;
+ if PageID <> wpSelectDir then exit;
  if (WizardForm.ComponentsList.Items.Count = 0) then
   WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
 end;
 
 <event('BackButtonClick')>
-function _Elevate__BackButtonClick(CurPageID: Integer): Boolean;
+function _Elevate__BackButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
- if CurPageID <> wpSelectDir then Exit;
+ if PageID <> wpSelectDir then Exit;
  if ElevateFailed then begin
   Result := False;
   ElevateFailed := False;
   WizardForm.NextButton.Enabled := True;
+  ElevateMarquee.Hide();
  end;
- if ElevateMemo <> nil then
-  ElevateMemo.Visible := False;
+end;
+
+procedure ElevateAnim();
+begin
+ ElevateMarquee.Animate();
+ AppProcessMessage();
 end;
 
 <event('NextButtonClick')>
-function _Elevate__NextButtonClick(CurPageID: Integer): Boolean;
+function _Elevate__NextButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
- if CurPageID <> wpSelectDir then Exit;
- if Elevated then exit;
+ if PageID <> wpSelectDir then Exit;
+ if Elevated then Exit;
  try
-  ElevateAnimTimer := SetTimer(0, 0, 50, CreateCallback(@AppProcessMessage));
-  WizardForm.BackButton.Enabled := False;
-  WizardForm.NextButton.Enabled := False;
-  WizardForm.CancelButton.Enabled := False;
-  ElevateMemo := TMemo.Create(WizardForm.SelectDirPage);
-  with ElevateMemo do begin
-   Parent := WizardForm.SelectDirPage;
-   Left := ScaleX(8);
-   Top := ScaleY(8);
-   Width := WizardForm.ClientWidth - Left * 2;
-   Height := WizardForm.InnerNotebook.Height - Top;
-   ReadOnly := True;
-   HideSelection := True;
-   Alignment := taCenter;
-   BorderStyle := bsNone;
-   Text := CustomMessage('AccessDeniedLaunchingElevated');
-   Font.Color := clWhite;
-   Font.Size := 12;
-   Font.Style := [fsBold];
-   Visible := True;
-  end;
-  ElevateIfNeeded;
+  ElevateAnimTimer := SetTimer(0, 0, 50, CreateCallback(@ElevateAnim));
+  ElevateMarquee.Show();
+  ElevateIfNeeded();
  finally
   Result := not ElevateFailed;
   KillTimer(0, ElevateAnimTimer);
-  WizardForm.BackButton.Enabled := True;
-  WizardForm.CancelButton.Enabled := True;
-  if ElevateFailed then begin
-   ElevateMemo.Text := CustomMessage('AccessDenied');
-  end else begin
-   WizardForm.NextButton.Enabled := True;
-   ElevateMemo.Visible := False;
+  ElevateMarquee.Hide();
+  if not Result then begin
+   MsgBox(CustomMessage('AccessDenied'), mbError, MB_OK);
+   BringToFrontAndRestore;
   end;
  end;
 end;
