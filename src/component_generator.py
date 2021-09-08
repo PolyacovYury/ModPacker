@@ -144,7 +144,8 @@ def main():
             f.write('[Files]\n')
             for f_path in data_files:
                 # noinspection SpellCheckingInspection
-                f.write(f'Source: "{f_path}"; DestDir: "{f_path.parent}"; Flags: ignoreversion nocompression dontcopy;\n')
+                f.write(
+                    f'Source: "{f_path}"; DestDir: "{f_path.parent}"; Flags: ignoreversion nocompression dontcopy;\n')
         if components_data:
             f.write('[Components]\n')
             for component in components_data:
@@ -167,38 +168,39 @@ def main():
                         if name in messages:
                             f.write(f'{name}={messages[name]}\n')
             # noinspection SpellCheckingInspection
-            f.write("""
-[Code]
-type
- TComponentData = record
-  fixed, restart, disablenouninstallwarning, exclusive, dontinheritcheck, checkablealone: Boolean;
-  name, desc, preview_image, preview_sound: String;
-  dep_soft, dep_hard: Array of String;
- end;
-
-var
- ComponentIDs: Array of String;
- ComponentData: Array of TComponentData;
-
-<event('InitializeWizard')>
-procedure InitializeComponentIDs();
-begin
- ComponentIDs := [
-  %s
- ]
- SetArrayLength(ComponentData, GetArrayLength(ComponentIDs));
- %s
-end;
-""" % (',\n  '.join(repr(component) for component in components_data), '\n  '.join(
-                """with ComponentData[%s] do begin
-   %s
-  end;""" % (i, ('\n   '.join('%s := %s;' % (k, repr(v).replace('\\\\', '\\')) for k, v in c_flags.items())
-                 + "\n   "
-                 + "\n   ".join("%s := %s;" % (k, (("CustomMessage('Component_%s_%s')" % (
-                            component.replace('/', '_'), k)) if len(
-                            component.split('/')) > 1 else "''")) for k in ('name', 'desc'))
-                 ))
-                for (i, (component, c_flags)) in enumerate(components_data.items()))))
+            f.write(
+                "\n[Code]\n"
+                "type\n"
+                " TComponentData = record\n"
+                "  fixed, restart, disablenouninstallwarning, exclusive, dontinheritcheck, checkablealone: Boolean;\n"
+                "  name, desc, preview_image, preview_sound: String;\n"
+                "  dep_soft, dep_hard: Array of String;\n"
+                " end;\n"
+                "var\n"
+                " ComponentIDs: Array of String;\n"
+                " ComponentData: Array of TComponentData;\n"
+                "<event('InitializeWizard')>\n"
+                "procedure InitializeComponentIDs();\n"
+                "begin\n"
+                " ComponentIDs := [\n")
+            for component in components_data:
+                f.write(f"  '{component}'")
+                if component != next(reversed(components_data)):  # components_data[-1], O(1)
+                    f.write(',')
+                f.write('\n')
+            f.write(" ]\n SetArrayLength(ComponentData, GetArrayLength(ComponentIDs));\n")
+            for (i, (component, c_flags)) in enumerate(components_data.items()):
+                f.write(f" with ComponentData[{i}] do begin\n")
+                for k, v in c_flags.items():
+                    v = repr(v).replace('\\\\', '\\')
+                    f.write(f"  {k} := {v};\n")
+                for k in ('name', 'desc'):
+                    if len(component.split('/')) > 1:
+                        f.write(f"  {k} := CustomMessage('Component_{component.replace('/', '_')}_{k}');\n")
+                    else:
+                        f.write(f"  {k} := '';\n")
+                f.write(' end;\n')
+            f.write("end;\n")
 
 
 if __name__ == '__main__':
