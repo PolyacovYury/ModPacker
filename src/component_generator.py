@@ -123,6 +123,15 @@ def main():
             elif f_path.suffix == '.mp3':
                 components_data[make_component(dirs)]['preview_sound'] = str(f_path)
                 data_files.append(f_path)
+    success = True
+    for component, flags in components_data.items():
+        for dep_list in ('dep_soft', 'dep_hard'):
+            for dep in flags[dep_list]:
+                if dep not in components_data:
+                    print(dep_list.split('_')[1], 'dependency', dep, 'not found for', component)
+                    success = False
+    if not success:
+        raise ValueError('missing dependencies detected')
     with open('src_generated/files.iss', 'w', encoding='windows-1251') as f:
         if mod_files:
             f.write('[Files]\n')
