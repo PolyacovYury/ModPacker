@@ -35,8 +35,10 @@ begin
   BASS_StreamFree(BASS_Handle);
   BASS_Handle := -1;
  end;
- if Length(Filename) > 0 then begin
-  BASS_Handle := BASS_StreamCreateFile(False, PAnsiChar(Filename), 0, 0, 0, 0, 0);
+ if Filename <> '' then begin
+  if not FileExists(ExpandConstant('{tmp}\' + Filename)) then
+   ExtractTemporaryFiles(Filename);
+  BASS_Handle := BASS_StreamCreateFile(False, PAnsiChar(ExpandConstant('{tmp}\' + Filename)), 0, 0, 0, 0, 0);
   BASS_Start();
   BASS_ChannelPlay(BASS_Handle, False);
  end;

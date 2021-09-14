@@ -55,8 +55,6 @@ begin
    BassWarningResult := MsgBox(CustomMessage('soundPreviewVolumeWarning'), mbInformation, MB_OK);
   if BassWarningResult = IDOK then
    if CheckListBox.Checked[Index] then begin
-    if not FileExists(ItemInfo.preview_sound) then
-     ExtractTemporaryFiles(ItemInfo.preview_sound);
     BassPlaySound(ItemInfo.preview_sound);
     BassVolumeBar.Enabled := True;
    end;
