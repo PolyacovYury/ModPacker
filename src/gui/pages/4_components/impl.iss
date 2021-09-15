@@ -219,7 +219,6 @@ end;
 
 procedure ActivateCurrentPage(Skipped: Boolean);
 begin
- WizardForm.BackButton.Visible := not Elevated or (ComponentsPageActiveIndex > 0);
  BassPlaySound('');
  ComponentsPageName.Caption := WizardForm.ComponentsList.ItemCaption[ComponentsLists[ComponentsPageActiveIndex].ItemsIndex[0] - 1];
  ComponentsLists[ComponentsPageActiveIndex].List.Visible := True;
@@ -249,10 +248,7 @@ begin
  Result := True;
  while Result do begin
   ComponentsPageActiveIndex := ComponentsPageActiveIndex + Step;
-  if IsForward then
-   Result := not CheckPageDep(ComponentsPageActiveIndex) and (ComponentsPageActiveIndex < TargetIdx)
-  else
-   Result := not CheckPageDep(ComponentsPageActiveIndex) and (ComponentsPageActiveIndex > TargetIdx);
+  Result := not CheckPageDep(ComponentsPageActiveIndex) and ((ComponentsPageActiveIndex * Step) < TargetIdx);
  end;
  ActivateCurrentPage(Result);
 end;
