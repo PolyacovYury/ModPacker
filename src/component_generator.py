@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 def make_component(parts):
-    return Path(*(p[(p.index('%') + 1) if '%' in p else 0:] for p in parts)).as_posix()
+    return str(Path(*(p[(p.index('%') + 1) if '%' in p else 0:] for p in parts)))
 
 
 def main():
@@ -96,7 +96,7 @@ def main():
                     k, v = part.split(']')
                     v = v.lstrip('\n').rstrip().replace('\n', '%n')
                     lang_k, k = k.split('.')
-                    lang_data[f'{lang_k}.Component_{make_component(dirs).replace("/", "_")}_{k}'] = v
+                    lang_data[f'{lang_k}.Component_' + make_component(dirs).replace("\\", "_") + f'_{k}'] = v
                 intersection = set(lang_data).intersection(set(messages))
                 if intersection:
                     raise ValueError(f'duplicate messages: {intersection}')
@@ -160,9 +160,9 @@ def main():
             for component in components_data:
                 f.write(f'Name: {component}; ')
                 f.write('Description: {cm:Component_')
-                f.write(component.replace('/', '_'))
+                f.write(component.replace('\\', '_'))
                 f.write('_name};')
-                if component.count('/') == 0:
+                if component.count('\\') == 0:
                     components_data[component]['checkablealone'] = False
                 flags = ' '.join(f for f, v in components_data[component].items() if isinstance(v, bool) and v)
                 if flags:
@@ -170,7 +170,7 @@ def main():
                 f.write('\n')
             f.write('[CustomMessages]\n')
             for component in components_data:
-                component = component.replace('/', '_')
+                component = component.replace('\\', '_')
                 for lang_txt in 'en', 'ru':
                     for k in 'name', 'desc':
                         name = f'{lang_txt}.Component_{component}_{k}'
@@ -186,26 +186,25 @@ def main():
                 "  dep_soft, dep_hard: Array of String;\n"
                 " end;\n"
                 "var\n"
-                " ComponentIDs: Array of String;\n"
+                " ComponentIDs: TStrings;\n"
                 " ComponentData: Array of TComponentData;\n"
                 "<event('InitializeWizard')>\n"
                 "procedure InitializeComponentIDs();\n"
                 "begin\n"
-                " ComponentIDs := [\n")
+                " ComponentIDs := TStringList.Create();\n")
             for component in components_data:
-                f.write(f"  '{component}'")
-                if component != next(reversed(components_data)):  # components_data[-1], O(1)
-                    f.write(',')
-                f.write('\n')
-            f.write(" ]\n SetArrayLength(ComponentData, GetArrayLength(ComponentIDs));\n")
+                f.write(f" ComponentIDs.Append('{component}');\n")
+            f.write(" SetArrayLength(ComponentData, ComponentIDs.Count);\n")
             for (i, (component, c_flags)) in enumerate(components_data.items()):
                 f.write(f" with ComponentData[{i}] do begin\n")
                 for k, v in c_flags.items():
                     v = repr(v).replace('\\\\', '\\')
                     f.write(f"  {k} := {v};\n")
                 for k in ('name', 'desc'):
-                    if len(component.split('/')) > 1:
-                        f.write(f"  {k} := CustomMessage('Component_{component.replace('/', '_')}_{k}');\n")
+                    if len(component.split('\\')) > 1:
+                        f.write(f"  {k} := CustomMessage('Component_")
+                        f.write(component.replace('\\', '_'))
+                        f.write(f"_{k}');\n")
                     else:
                         f.write(f"  {k} := '';\n")
                 f.write(' end;\n')
