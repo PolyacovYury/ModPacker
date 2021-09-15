@@ -22,26 +22,38 @@ begin
  WizardForm.ComponentsDiskSpaceLabel.Visible := PageID = wpSelectComponents;
  if PageID <> wpSelectComponents then Exit;
  WizardForm.Update();
+ SetButtonsEnabled(False);
  if not CheckPageDep(ComponentsPageActiveIndex) then
   ChangeActiveComponentsIndex(False)
  else
   ActivateCurrentPage(False);
+ SetButtonsEnabled(True);
 end;
 
 <event('BackButtonClick')>
 Function ComponentsPageOnBackButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
+ SetButtonsEnabled(False);
+ InvalidateHardDep();
+ SetButtonsEnabled(True);
  if PageID <> wpSelectComponents then Exit;
+ SetButtonsEnabled(False);
  Result := ChangeActiveComponentsIndex(False);
+ SetButtonsEnabled(True);
 end;
 
 <event('NextButtonClick')>
 Function ComponentsPageOnNextButtonClick(PageID: Integer): Boolean;
 begin
  Result := True;
+ SetButtonsEnabled(False);
+ InvalidateHardDep();
+ SetButtonsEnabled(True);
  if PageID <> wpSelectComponents then Exit;
+ SetButtonsEnabled(False);
  Result := ChangeActiveComponentsIndex(True);
+ SetButtonsEnabled(True);
 end;
 
 <event('InitializeWizard')>
@@ -173,5 +185,5 @@ begin
  end;
  WizardForm.ComponentsList.Visible := False;
  WizardForm.SelectComponentsLabel.Visible := False;
- ProcessDepClick(TObject(ComponentsLists[GetArrayLength(ComponentsLists) - 1].List));
+ InvalidateHardDep();
 end;

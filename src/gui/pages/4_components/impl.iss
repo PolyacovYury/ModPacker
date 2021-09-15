@@ -105,21 +105,40 @@ begin
  ComponentsLists[CheckListBoxTag].ItemsIndex[Idx] := Index;
 end;
 
+procedure LocateComponentIndex(DepIndex: Integer; var K: Integer; var Count: Integer);
+begin
+ Count := -1;
+ for K := 0 to GetArrayLength(ComponentsLists) - 1 do
+  if ComponentsLists[K].ItemsIndex[GetArrayLength(ComponentsLists[K].ItemsIndex) - 1] >= DepIndex then begin
+   Count := DepIndex - ComponentsLists[K].ItemsIndex[0];
+   break;
+  end;
+end;
+
 procedure SetComponentChecked(I: Integer; Checked: Boolean);
 var
  ComponentID: String;
+ K, Count: Integer;
 begin
  ComponentID := ComponentIDs[I];
  if not Checked then
   ComponentID := '!' + ComponentID;
  WizardSelectComponents(ComponentID);
- if Checked then
-  if ComponentData[I].checkablealone then
-   WizardForm.ComponentsList.CheckItem(I, coCheck)
-  else
-   WizardForm.ComponentsList.CheckItem(I, coCheckWithChildren)
- else
+ LocateComponentIndex(I, K, Count);
+ if Checked then begin
+  if ComponentData[I].checkablealone then begin
+   WizardForm.ComponentsList.CheckItem(I, coCheck);
+   ComponentsLists[K].List.CheckItem(Count, coCheck);
+  end else begin
+   WizardForm.ComponentsList.CheckItem(I, coCheckWithChildren);
+   ComponentsLists[K].List.CheckItem(Count, coCheckWithChildren);
+  end;
+ end else begin
   WizardForm.ComponentsList.CheckItem(I, coUncheck);
+  if Count > -1 then  // page component
+   ComponentsLists[K].List.CheckItem(Count, coUncheck);
+ end;
+ WizardForm.ComponentsList.OnClickCheck(WizardForm.ComponentsList);
 end;
 
 function CheckPageDep(I: Integer): Boolean;
@@ -133,65 +152,72 @@ begin
   if not WizardIsComponentSelected(ComponentData[Index].dep_hard[J]) then begin
    Result := False;
    SetComponentChecked(Index, False);
-   for K := 0 to ComponentsLists[I].List.Items.Count - 1 do
+   for K := 0 to ComponentsLists[I].List.Items.Count - 1 do begin
     ComponentsLists[I].List.Checked[K] := False;
+    ComponentsLists[I].List.ItemEnabled[K] := True;
+   end;
   end;
  end;
 end;
 
-procedure ProcessDepClick(Sender: TObject);
+procedure InvalidateHardDep();
 var
- I, J, K, DepIndex, Count, Clicked: Integer;
- CheckListBox: TNewCheckListBox;
+ I, J, K, DepIndex, Count: Integer;
 begin
  for I := 0 to GetArrayLength(ComponentsLists) - 1 do
   for J := 0 to GetArrayLength(ComponentsLists[I].ItemsIndex) - 1 do
    ComponentsLists[I].List.ItemEnabled[J] := True;
  for I := 0 to GetArrayLength(ComponentData) - 1 do begin
   if GetArrayLength(ComponentData[I].dep_hard) > 0 then
-  if WizardForm.ComponentsList.Checked[I] then
+  if WizardIsComponentSelected(ComponentIDs[I]) then
   for J := 0 to GetArrayLength(ComponentData[I].dep_hard) - 1 do begin
-   DepIndex := -1;
-   for K := 0 to GetArrayLength(ComponentIDs) - 1 do
-    if ComponentIDs[K] = ComponentData[I].dep_hard[J] then begin
-     DepIndex := K;
-     break;
-    end;
+   DepIndex := ComponentIDs.IndexOf(ComponentData[I].dep_hard[J]);
    SetComponentChecked(DepIndex, True);
-   Count := 0;
-   for K := 0 to GetArrayLength(ComponentsLists) - 1 do
-    if ComponentsLists[K].ItemsIndex[GetArrayLength(ComponentsLists[K].ItemsIndex) - 1] >= DepIndex then begin
-     Count := DepIndex - ComponentsLists[K].ItemsIndex[0];
-     break;
-    end;
+   LocateComponentIndex(DepIndex, K, Count);
    ComponentsLists[K].List.Checked[Count] := True;
    ComponentsLists[K].List.ItemEnabled[Count] := False;
   end;
  end;
- CheckListBox := TNewCheckListBox(Sender);
- if not GetHoverItemIndex(CheckListBox, Clicked) then
+ WizardForm.Update();
+end;
+
+procedure CheckSoftDep(CheckListBoxTag: Integer; Clicked: Integer);
+var
+ I, J, K, DepIndex, Count: Integer;
+ ParentID: String;
+begin
+ if not ((Clicked > -1) and (GetArrayLength(ComponentsLists[CheckListBoxTag].ItemsIndex) > Clicked)) then
   Exit;
- for I := 0 to GetArrayLength(ComponentData) - 1 do begin
-  if GetArrayLength(ComponentsLists[CheckListBox.Tag].ItemsIndex) > Clicked then
-  if ComponentsLists[CheckListBox.Tag].ItemsIndex[Clicked] = I then
-  if GetArrayLength(ComponentData[I].dep_soft) > 0 then
-  if WizardForm.ComponentsList.Checked[I] then
-  for J := 0 to GetArrayLength(ComponentData[I].dep_soft) - 1 do begin
-   DepIndex := -1;
-   for K := 0 to GetArrayLength(ComponentIDs) - 1 do
-    if ComponentIDs[K] = ComponentData[I].dep_soft[J] then begin
-     DepIndex := K;
-     break;
-    end;
-   SetComponentChecked(DepIndex, True);
-   Count := 0;
-   for K := 0 to GetArrayLength(ComponentsLists) - 1 do
-    if ComponentsLists[K].ItemsIndex[GetArrayLength(ComponentsLists[K].ItemsIndex) - 1] >= DepIndex then begin
-     Count := DepIndex - ComponentsLists[K].ItemsIndex[0];
-     break;
-    end;
-   ComponentsLists[K].List.Checked[Count] := True;
-  end;
+ I := ComponentsLists[CheckListBoxTag].ItemsIndex[Clicked];
+ if not WizardIsComponentSelected(ComponentIDs[I]) then
+  Exit;
+ if GetArrayLength(ComponentData[I].dep_soft) > 0 then
+ for J := 0 to GetArrayLength(ComponentData[I].dep_soft) - 1 do begin
+  DepIndex := ComponentIDs.IndexOf(ComponentData[I].dep_soft[J]);
+  SetComponentChecked(DepIndex, True);
+  LocateComponentIndex(DepIndex, K, Count);
+  ComponentsLists[K].List.Checked[Count] := True;
+  CheckSoftDep(K, Count);
+ end;
+ ParentID := ExtractFileDir(ComponentIDs[I]);
+ if ParentID <> '' then begin
+  LocateComponentIndex(ComponentIDs.IndexOf(ParentID), K, Count);
+  CheckSoftDep(K, Count);
+ end;
+end;
+
+procedure SetButtonsEnabled(Enabled: Boolean);
+begin
+ if Enabled then begin
+  WizardForm.BackButton.Enabled := True;
+  WizardForm.BackButton.Cursor := crDefault;
+  WizardForm.NextButton.Enabled := True;
+  WizardForm.NextButton.Cursor := crDefault;
+ end else begin
+  WizardForm.BackButton.Enabled := False;
+  WizardForm.BackButton.Cursor := crHourGlass;
+  WizardForm.NextButton.Enabled := False;
+  WizardForm.NextButton.Cursor := crHourGlass;
  end;
  WizardForm.Update();
 end;
@@ -205,9 +231,15 @@ begin
  CheckListBox := TNewCheckListBox(Sender);
  if not GetHoverItemIndex(CheckListBox, Index) then
   Exit;
+ ComponentsLists[CheckListBox.Tag].List.Enabled := False;
+ ComponentsLists[CheckListBox.Tag].List.Cursor := crHourGlass;
+ SetButtonsEnabled(False);
  SetComponentChecked(ComponentsLists[CheckListBox.Tag].ItemsIndex[Index], CheckListBox.Checked[Index]);
- ProcessDepClick(Sender);
- WizardForm.ComponentsList.OnClickCheck(WizardForm.ComponentsList);
+ CheckSoftDep(CheckListBox.Tag, Index);
+ InvalidateHardDep();
+ ComponentsLists[CheckListBox.Tag].List.Enabled := True;
+ ComponentsLists[CheckListBox.Tag].List.Cursor := crDefault;
+ SetButtonsEnabled(True);
 end;
 
 Procedure OnItemsListMouseLeave();
@@ -222,6 +254,7 @@ begin
  BassPlaySound('');
  ComponentsPageName.Caption := WizardForm.ComponentsList.ItemCaption[ComponentsLists[ComponentsPageActiveIndex].ItemsIndex[0] - 1];
  ComponentsLists[ComponentsPageActiveIndex].List.Visible := True;
+ ComponentsLists[ComponentsPageActiveIndex].List.Enabled := True;
  BassVolumeBar.Visible := ComponentsLists[ComponentsPageActiveIndex].NeedsVolume and (not Skipped);
  BassVolumeLbl.Visible := ComponentsLists[ComponentsPageActiveIndex].NeedsVolume and (not Skipped);
  if (ComponentsLists[ComponentsPageActiveIndex].NeedsVolume) and (not Skipped) and (BassWarningResult <> IDOK) then
