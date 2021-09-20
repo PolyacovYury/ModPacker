@@ -8,7 +8,7 @@ ru.descriptionMemoItemUnavailable=%nВременно недоступно.
 en.descriptionMemoItemUsed=%nMod will be used by (an)other mod(s).
 ru.descriptionMemoItemUsed=%nМод необходим для работы других модов.
 en.soundPreviewVolumeWarning=To avoid playing an unexpectedly loud sound, check your system volume level.%nAlso note that Setup has own volume level (at window bottom).
-ru.soundPreviewVolumeWarning=Во избежание неожиданно громкого звука, проверьте выставленную в системе громкость.%nТакже, обратите внимание на ползунок громкости в нижней части окна установщика.
+ru.soundPreviewVolumeWarning=Во избежание неожиданно громкого звука проверьте выставленную в системе громкость.%nТакже обратите внимание на ползунок громкости в нижней части окна установщика.
 en.soundPreviewVolume=Volume: %d%%
 ru.soundPreviewVolume=Громкость: %d%%
 
