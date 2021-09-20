@@ -312,12 +312,12 @@ begin
  for I := 0 to GetArrayLength(ComponentsLists) - 1 do begin
   if ComponentsLists[I].List.Handle <> hwnd then
    Continue;
-  if (uMsg = WM_MOUSEMOVE) or (uMsg = WM_MOUSEHOVER) then
+  Result := CallWindowProc(ComponentsLists[I].OldProc, hwnd, uMsg, wParam, lParam);
+  if (uMsg = WM_MOUSEMOVE) or (uMsg = WM_MOUSEHOVER) or (uMsg = WM_MOUSEWHEEL) then
    if not OnItemsListMouseMove(ComponentsLists[I].List) then
     OnItemsListMouseLeave();
   if uMsg = WM_MOUSELEAVE then
    OnItemsListMouseLeave();
-  Result := CallWindowProc(ComponentsLists[I].OldProc, hwnd, uMsg, wParam, lParam);
   Break;
  end;
 end;
