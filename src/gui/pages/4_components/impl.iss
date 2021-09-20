@@ -117,13 +117,8 @@ end;
 
 procedure SetComponentChecked(I: Integer; Checked: Boolean);
 var
- ComponentID: String;
  K, Count: Integer;
 begin
- ComponentID := ComponentIDs[I];
- if not Checked then
-  ComponentID := '!' + ComponentID;
- WizardSelectComponents(ComponentID);
  LocateComponentIndex(I, K, Count);
  if Checked then begin
   if ComponentData[I].checkablealone then begin
@@ -138,7 +133,6 @@ begin
   if Count > -1 then  // page component
    ComponentsLists[K].List.CheckItem(Count, coUncheck);
  end;
- WizardForm.ComponentsList.OnClickCheck(WizardForm.ComponentsList);
 end;
 
 function CheckPageDep(I: Integer): Boolean;
@@ -163,7 +157,10 @@ end;
 procedure InvalidateHardDep();
 var
  I, J, K, DepIndex, Count: Integer;
+ dep: String;
+ encountered: TStrings;
 begin
+ encountered := TStringList.Create();
  for I := 0 to GetArrayLength(ComponentsLists) - 1 do
   for J := 0 to GetArrayLength(ComponentsLists[I].ItemsIndex) - 1 do
    ComponentsLists[I].List.ItemEnabled[J] := True;
@@ -171,13 +168,17 @@ begin
   if GetArrayLength(ComponentData[I].dep_hard) > 0 then
   if WizardIsComponentSelected(ComponentIDs[I]) then
   for J := 0 to GetArrayLength(ComponentData[I].dep_hard) - 1 do begin
-   DepIndex := ComponentIDs.IndexOf(ComponentData[I].dep_hard[J]);
+   dep := ComponentData[I].dep_hard[J];
+   if encountered.IndexOf(dep) > -1 then
+    continue;
+   encountered.add(dep);
+   DepIndex := ComponentIDs.IndexOf(dep);
    SetComponentChecked(DepIndex, True);
    LocateComponentIndex(DepIndex, K, Count);
-   ComponentsLists[K].List.Checked[Count] := True;
    ComponentsLists[K].List.ItemEnabled[Count] := False;
   end;
  end;
+ encountered.Free();
  WizardForm.Update();
 end;
 
@@ -196,7 +197,6 @@ begin
   DepIndex := ComponentIDs.IndexOf(ComponentData[I].dep_soft[J]);
   SetComponentChecked(DepIndex, True);
   LocateComponentIndex(DepIndex, K, Count);
-  ComponentsLists[K].List.Checked[Count] := True;
   CheckSoftDep(K, Count);
  end;
  ParentID := ExtractFileDir(ComponentIDs[I]);
@@ -231,15 +231,10 @@ begin
  CheckListBox := TNewCheckListBox(Sender);
  if not GetHoverItemIndex(CheckListBox, Index) then
   Exit;
- ComponentsLists[CheckListBox.Tag].List.Enabled := False;
- ComponentsLists[CheckListBox.Tag].List.Cursor := crHourGlass;
- SetButtonsEnabled(False);
  SetComponentChecked(ComponentsLists[CheckListBox.Tag].ItemsIndex[Index], CheckListBox.Checked[Index]);
  CheckSoftDep(CheckListBox.Tag, Index);
  InvalidateHardDep();
- ComponentsLists[CheckListBox.Tag].List.Enabled := True;
- ComponentsLists[CheckListBox.Tag].List.Cursor := crDefault;
- SetButtonsEnabled(True);
+ WizardForm.ComponentsList.OnClickCheck(WizardForm.ComponentsList);
 end;
 
 Procedure OnItemsListMouseLeave();
@@ -254,7 +249,6 @@ begin
  BassPlaySound('');
  ComponentsPageName.Caption := WizardForm.ComponentsList.ItemCaption[ComponentsLists[ComponentsPageActiveIndex].ItemsIndex[0] - 1];
  ComponentsLists[ComponentsPageActiveIndex].List.Visible := True;
- ComponentsLists[ComponentsPageActiveIndex].List.Enabled := True;
  BassVolumeBar.Visible := ComponentsLists[ComponentsPageActiveIndex].NeedsVolume and (not Skipped);
  BassVolumeLbl.Visible := ComponentsLists[ComponentsPageActiveIndex].NeedsVolume and (not Skipped);
  if (ComponentsLists[ComponentsPageActiveIndex].NeedsVolume) and (not Skipped) and (BassWarningResult <> IDOK) then
@@ -332,7 +326,7 @@ Procedure InitCheckBoxList(CheckListBox: TNewCheckListBox);
 begin
  ComponentsLists[CheckListBox.Tag].OldProc := SetWindowLong(CheckListBox.Handle, GWL_WNDPROC, CreateCallback(@ProcessListWnd));
  SetWindowLong(CheckListBox.Handle, GWL_EXSTYLE, GetWindowLong(CheckListBox.Handle, GWL_EXSTYLE) or WS_EX_COMPOSITED);
- CheckListBox.OnClick := @ComponentsListOnClick;
+ CheckListBox.OnClickCheck := @ComponentsListOnClick;
 end;
 
 <event('DeinitializeSetup')>

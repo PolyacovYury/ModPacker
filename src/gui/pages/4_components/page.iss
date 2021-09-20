@@ -186,4 +186,5 @@ begin
  WizardForm.ComponentsList.Visible := False;
  WizardForm.SelectComponentsLabel.Visible := False;
  InvalidateHardDep();
+ WizardForm.ComponentsList.OnClickCheck(WizardForm.ComponentsList);
 end;
