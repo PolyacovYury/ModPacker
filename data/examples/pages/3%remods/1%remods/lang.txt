@@ -1,6 +1,6 @@
-[en.name]
+п»ї[en.name]
 Remodels pack
 [en.desc]
 [ru.name]
-Пак ремодов
+РџР°Рє СЂРµРјРѕРґРѕРІ
 [ru.desc]

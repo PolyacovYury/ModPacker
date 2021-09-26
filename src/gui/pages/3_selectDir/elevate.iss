@@ -1,9 +1,9 @@
-// https://stackoverflow.com/a/35435534
+п»ї// https://stackoverflow.com/a/35435534
 [CustomMessages]
 en.AccessDenied=Could not get write access to install directory.
-ru.AccessDenied=Не удалось получить доступ к папке установки.
+ru.AccessDenied=РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РґРѕСЃС‚СѓРї Рє РїР°РїРєРµ СѓСЃС‚Р°РЅРѕРІРєРё.
 en.AccessDeniedLaunchingElevated=Could not get write access to install directory.%nAttempting to re-launch with admin privileges.%nPlease, wait.
-ru.AccessDeniedLaunchingElevated=Не удалось получить доступ к папке установки.%nПроизводится попытка перезапустить установку от имени администратора.%nПожалуйста, подождите.
+ru.AccessDeniedLaunchingElevated=РќРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ РґРѕСЃС‚СѓРї Рє РїР°РїРєРµ СѓСЃС‚Р°РЅРѕРІРєРё.%nРџСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РїРѕРїС‹С‚РєР° РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ СѓСЃС‚Р°РЅРѕРІРєСѓ РѕС‚ РёРјРµРЅРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°.%nРџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРѕРґРѕР¶РґРёС‚Рµ.
 
 [Code]
 var

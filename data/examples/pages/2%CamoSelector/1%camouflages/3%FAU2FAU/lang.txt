@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 FAU2FAU
 [en.desc]
 Camouflages by FAU2FAU
 [ru.name]
 FAU2FAU
 [ru.desc]
-Камуфляжи от FAU2FAU
+РљР°РјСѓС„Р»СЏР¶Рё РѕС‚ FAU2FAU

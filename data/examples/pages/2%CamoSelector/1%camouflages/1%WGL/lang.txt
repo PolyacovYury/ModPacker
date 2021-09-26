@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 WGL
 [en.desc]
 Camouflages from Wargaming League
 [ru.name]
 WGL
 [ru.desc]
-Камуфляжи из лиги Wargaming
+РљР°РјСѓС„Р»СЏР¶Рё РёР· Р»РёРіРё Wargaming

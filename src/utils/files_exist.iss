@@ -1,4 +1,4 @@
-[Code]
+﻿[Code]
 function StripAndCheckExists(path: string; defaulted: Boolean): string;
 var
   I: Integer;

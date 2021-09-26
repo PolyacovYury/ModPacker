@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 Projection decals
 [en.desc]
 Custom projection decals
 [ru.name]
-Декали
+Р”РµРєР°Р»Рё
 [ru.desc]
-Пользовательские декали
+РџРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ РґРµРєР°Р»Рё

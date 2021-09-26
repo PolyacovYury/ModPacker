@@ -90,7 +90,7 @@ def main():
         for f_name in sub_files:
             f_path = (path / f_name)
             if f_path.name == 'lang.txt':
-                lang_txt = f_path.read_text('windows-1251')
+                lang_txt = f_path.read_text('utf-8-sig')
                 lang_data = {}
                 for part in lang_txt.split('[')[1:]:
                     k, v = part.split(']')
@@ -102,16 +102,16 @@ def main():
                     raise ValueError(f'duplicate messages: {intersection}')
                 messages.update(lang_data)
             elif f_path.name == 'flags.txt':
-                flags_txt = f_path.read_text('windows-1251')
+                flags_txt = f_path.read_text('utf-8-sig')
                 flags_data = components_data[make_component(dirs)]
                 for flag in filter(None, flags_txt.split()):
                     if flag not in flags_data:
                         raise ValueError(f'incorrect component flag: {flag}, must be in {list(flags_data.keys())}')
                     flags_data[flag] = True
             elif f_path.name in ('dep_soft.txt', 'dep_hard.txt'):
-                components_data[make_component(dirs)][f_path.stem] = f_path.read_text('windows-1251').split()
+                components_data[make_component(dirs)][f_path.stem] = f_path.read_text('utf-8-sig').split()
             elif f_path.name == 'file_flags.txt':
-                flags_txt = f_path.read_text('windows-1251')
+                flags_txt = f_path.read_text('utf-8-sig')
                 flags_data = mod_file_flags[make_component(dirs)] = def_file_flags.copy()
                 for flag in filter(None, flags_txt.split()):
                     if flag not in flags_data:
@@ -132,7 +132,7 @@ def main():
                     success = False
     if not success:
         raise ValueError('missing dependencies detected')
-    with open('src_generated/files.iss', 'w', encoding='windows-1251') as f:
+    with open('src_generated/files.iss', 'w', encoding='utf-8-sig') as f:
         if mod_files:
             f.write('[Files]\n')
             for f_path in mod_files:
@@ -148,7 +148,7 @@ def main():
                     f.write(' '.join(f for f, v in flags_data.items() if isinstance(v, bool) and v))
                 f.write("; BeforeInstall: SetInstallStatus('Component_%s_name'); " % make_component(f_path.parts[2:3]))
                 f.write("AfterInstall: AddInstalledFile('');\n")
-    with open('src_generated/components.iss', 'w', encoding='windows-1251') as f:
+    with open('src_generated/components.iss', 'w', encoding='utf-8-sig') as f:
         if data_files:
             f.write('[Files]\n')
             for f_path in data_files:

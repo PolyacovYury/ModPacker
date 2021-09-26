@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 AppreciationBadges
 [en.desc]
 Allows adding a client-only custom badge
 [ru.name]
-Нашивки Увожения (AppreciationBadges)
+РќР°С€РёРІРєРё РЈРІРѕР¶РµРЅРёСЏ (AppreciationBadges)
 [ru.desc]
-Позволяет добавить собственную нашивку, видную только вам
+РџРѕР·РІРѕР»СЏРµС‚ РґРѕР±Р°РІРёС‚СЊ СЃРѕР±СЃС‚РІРµРЅРЅСѓСЋ РЅР°С€РёРІРєСѓ, РІРёРґРЅСѓСЋ С‚РѕР»СЊРєРѕ РІР°Рј

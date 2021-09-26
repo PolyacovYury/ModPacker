@@ -1,4 +1,4 @@
-[Code]
+﻿[Code]
 const
  GWL_EXSTYLE = -20;
  WS_EX_COMPOSITED = $02000000;

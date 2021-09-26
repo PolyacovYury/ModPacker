@@ -1,2 +1,2 @@
-#include "layout.iss"
+﻿#include "layout.iss"
 #include "widgets.iss"

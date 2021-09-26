@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 FAU2FAU
 [en.desc]
 Decals by FAU2FAU
 [ru.name]
 FAU2FAU
 [ru.desc]
-Декали от FAU2FAU
+Р”РµРєР°Р»Рё РѕС‚ FAU2FAU

@@ -1,4 +1,4 @@
-[Messages]
+﻿[Messages]
 ButtonCancel=Exit
 
 [CustomMessages]

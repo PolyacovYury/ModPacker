@@ -1,4 +1,4 @@
-[Code]
+﻿[Code]
 Type
  TPreviewImagePos = record
   Top, Left, Width, Height: Integer;

@@ -1,17 +1,17 @@
-// © Kotyarko_O, 2020 \\
+п»ї// В© Kotyarko_O, 2020 \\
 
 [CustomMessages]
 en.applicationNotFound=Required World of Tanks files not found in the chosen directory.
-ru.applicationNotFound=Необходимые файлы World of Tanks не найдены в выбранной папке.
+ru.applicationNotFound=РќРµРѕР±С…РѕРґРёРјС‹Рµ С„Р°Р№Р»С‹ World of Tanks РЅРµ РЅР°Р№РґРµРЅС‹ РІ РІС‹Р±СЂР°РЅРЅРѕР№ РїР°РїРєРµ.
 en.applicationWrongDir=Selected install directory%nis not a World of Tanks client root directory.%n%nPlease, select a World of Tanks root directory%n(contains folders like "mods" and "res_mods").
-ru.applicationWrongDir=Выбранная папка установки не является%nкорневой папкой клиента игры World of Tanks.%n%nПожалуйста, выберите корневую папку World of Tanks%n(содержит такие папки, как "mods" и "res_mods").
+ru.applicationWrongDir=Р’С‹Р±СЂР°РЅРЅР°СЏ РїР°РїРєР° СѓСЃС‚Р°РЅРѕРІРєРё РЅРµ СЏРІР»СЏРµС‚СЃСЏ%nРєРѕСЂРЅРµРІРѕР№ РїР°РїРєРѕР№ РєР»РёРµРЅС‚Р° РёРіСЂС‹ World of Tanks.%n%nРџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІС‹Р±РµСЂРёС‚Рµ РєРѕСЂРЅРµРІСѓСЋ РїР°РїРєСѓ World of Tanks%n(СЃРѕРґРµСЂР¶РёС‚ С‚Р°РєРёРµ РїР°РїРєРё, РєР°Рє "mods" Рё "res_mods").
 en.applicationIncompleteType=Game client installation/update must be finished before continuing this Setup.
-ru.applicationIncompleteType=Необходимо завершить установку/обновление клиента, прежде чем продолжить установку.
+ru.applicationIncompleteType=РќРµРѕР±С…РѕРґРёРјРѕ Р·Р°РІРµСЂС€РёС‚СЊ СѓСЃС‚Р°РЅРѕРІРєСѓ/РѕР±РЅРѕРІР»РµРЅРёРµ РєР»РёРµРЅС‚Р°, РїСЂРµР¶РґРµ С‡РµРј РїСЂРѕРґРѕР»Р¶РёС‚СЊ СѓСЃС‚Р°РЅРѕРІРєСѓ.
 en.applicationPatchIncompatible=Incompatible game client version: %s%nThis Setup requires version {#GameVersion}.
-ru.applicationPatchIncompatible=Неподходящая версия установленного клиента: %s%nСборка предназначена для патча {#GameVersion}.
+ru.applicationPatchIncompatible=РќРµРїРѕРґС…РѕРґСЏС‰Р°СЏ РІРµСЂСЃРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРіРѕ РєР»РёРµРЅС‚Р°: %s%nРЎР±РѕСЂРєР° РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ РїР°С‚С‡Р° {#GameVersion}.
 
 en.cleanProfileButtonText=Clear game client profile (reset client settings and caches)
-ru.cleanProfileButtonText=Очистить папку профиля игрового клиента (сброс индивидуальных настроек и кэша)
+ru.cleanProfileButtonText=РћС‡РёСЃС‚РёС‚СЊ РїР°РїРєСѓ РїСЂРѕС„РёР»СЏ РёРіСЂРѕРІРѕРіРѕ РєР»РёРµРЅС‚Р° (СЃР±СЂРѕСЃ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹С… РЅР°СЃС‚СЂРѕРµРє Рё РєСЌС€Р°)
 
 [Files]
 Source: "data\img\gui\pages\3_selectDir\directory.png"; DestDir: "data\img\gui\pages\3_selectDir\"; Flags: ignoreversion nocompression dontcopy;

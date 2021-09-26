@@ -1,4 +1,4 @@
-[Setup]
+п»ї[Setup]
 AppId="{{#AppId}"
 AppName={cm:AppName}
 AppVersion={#AppVersion}
@@ -7,16 +7,16 @@ AppPublisher={#AppPublisher}
 VersionInfoVersion={#GameVersion}
 DefaultGroupName={#SetupSetting("AppName")}
 
-//====={ Ссылки }=====\\
+//====={ РЎСЃС‹Р»РєРё }=====\\
 AppPublisherURL={#AppURL}
 AppSupportURL=""
 AppUpdatesURL=""
 
-//====={ Картинки }=====\\
+//====={ РљР°СЂС‚РёРЅРєРё }=====\\
 SetupIconFile=data\img\icon.ico
 UninstallDisplayIcon="{uninstallexe}"
 
-//====={ Отключение страниц }=====\\
+//====={ РћС‚РєР»СЋС‡РµРЅРёРµ СЃС‚СЂР°РЅРёС† }=====\\
 DisableWelcomePage=yes
 DisableProgramGroupPage=yes
 DisableReadyPage=no
@@ -24,7 +24,7 @@ DisableDirPage=no
 DirExistsWarning=no
 DisableFinishedPage=yes
 
-//====={ Папка создания и название }=====\\
+//====={ РџР°РїРєР° СЃРѕР·РґР°РЅРёСЏ Рё РЅР°Р·РІР°РЅРёРµ }=====\\
 OutputDir=build
 OutputBaseFilename="{#InstallerName}"
 UninstallFilesDir="{app}\{#UninstallDirName}"
@@ -33,12 +33,12 @@ AppendDefaultDirName=no
 VersionInfoProductName=""
 VersionInfoDescription=""
 
-//====={ Сжатие }=====\\
+//====={ РЎР¶Р°С‚РёРµ }=====\\
 InternalCompressLevel=ultra64
 Compression=lzma2/ultra64
 SolidCompression=true
 
-//====={ Разное }=====\\
+//====={ Р Р°Р·РЅРѕРµ }=====\\
 PrivilegesRequired=lowest
 CreateUninstallRegKey=yes
 

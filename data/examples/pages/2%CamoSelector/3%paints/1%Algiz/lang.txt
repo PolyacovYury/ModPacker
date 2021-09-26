@@ -1,8 +1,8 @@
-[en.name]
+п»ї[en.name]
 German paints by Algiz
 [en.desc]
 Alternative, more historically accurate colors for German vehicles by Algiz
 [ru.name]
-Немецкие краски от Algiz
+РќРµРјРµС†РєРёРµ РєСЂР°СЃРєРё РѕС‚ Algiz
 [ru.desc]
-Альтернативные, более исторически достоверные цвета немецких танков от Algiz 
+РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ, Р±РѕР»РµРµ РёСЃС‚РѕСЂРёС‡РµСЃРєРё РґРѕСЃС‚РѕРІРµСЂРЅС‹Рµ С†РІРµС‚Р° РЅРµРјРµС†РєРёС… С‚Р°РЅРєРѕРІ РѕС‚ Algiz 

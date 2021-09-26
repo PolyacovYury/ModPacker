@@ -1,6 +1,6 @@
-[CustomMessages]
+п»ї[CustomMessages]
 en.licenseAccept=Accept
-ru.licenseAccept=Принимаю
+ru.licenseAccept=РџСЂРёРЅРёРјР°СЋ
 
 [Code]
 <event('CurPageChanged')>

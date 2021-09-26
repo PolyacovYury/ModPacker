@@ -1,4 +1,4 @@
-[Code]
+﻿[Code]
 Function GetHoverItemIndex(CheckListBox: TNewCheckListBox; var I: Integer): Boolean;
 var
  Point: TPoint;

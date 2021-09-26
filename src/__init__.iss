@@ -1,4 +1,4 @@
-#define UninstallReg "Software\Microsoft\Windows\CurrentVersion\Uninstall\" + AppId + "_is1"
+﻿#define UninstallReg "Software\Microsoft\Windows\CurrentVersion\Uninstall\" + AppId + "_is1"
 #define UninstallPathReg "Inno Setup: App Path"
 
 #include "setup.iss"

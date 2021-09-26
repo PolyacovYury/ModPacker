@@ -1,4 +1,4 @@
-// This file is part of the Findwot project.
+﻿// This file is part of the Findwot project.
 //
 // Copyright (c) 2016-2017 Findwot contributors.
 //

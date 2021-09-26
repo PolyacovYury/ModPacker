@@ -1,8 +1,8 @@
-// © Kotyarko_O, 2020 \\
+п»ї// В© Kotyarko_O, 2020 \\
 
 [CustomMessages]
 en.runningApplicationFound=Running "World of Tanks" application found.%nIt is recommended that you allow Setup to automatically close these application.
-ru.runningApplicationFound=Обнаружено запущенное приложение "World of Tanks".%nПеред продолжением требуется закрыть все экземпляры приложения.
+ru.runningApplicationFound=РћР±РЅР°СЂСѓР¶РµРЅРѕ Р·Р°РїСѓС‰РµРЅРЅРѕРµ РїСЂРёР»РѕР¶РµРЅРёРµ "World of Tanks".%nРџРµСЂРµРґ РїСЂРѕРґРѕР»Р¶РµРЅРёРµРј С‚СЂРµР±СѓРµС‚СЃСЏ Р·Р°РєСЂС‹С‚СЊ РІСЃРµ СЌРєР·РµРјРїР»СЏСЂС‹ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 
 [Code]
 Function CheckForGameRun(): Boolean;

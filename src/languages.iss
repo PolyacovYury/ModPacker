@@ -1,4 +1,4 @@
-//====={ Выбор языка }=====\\
+п»ї//====={ Р’С‹Р±РѕСЂ СЏР·С‹РєР° }=====\\
 [Files]
 Source: {#file "data\lang\ru\info_before.rtf"}; DestDir: "data\lang\ru\"; DestName: "info_before.rtf"; Flags: ignoreversion dontcopy;
 Source: {#file "data\lang\en\info_before.rtf"}; DestDir: "data\lang\en\"; DestName: "info_before.rtf"; Flags: ignoreversion dontcopy;

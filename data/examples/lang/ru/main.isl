@@ -1,9 +1,9 @@
-[Messages]
-ButtonCancel=Выход
-DiskSpaceGBLabel=Требуется минимум [gb] Гб свободного дискового пространства.
-DiskSpaceMBLabel=Требуется минимум [mb] Мб свободного дискового пространства.
+п»ї[Messages]
+ButtonCancel=Р’С‹С…РѕРґ
+DiskSpaceGBLabel=РўСЂРµР±СѓРµС‚СЃСЏ РјРёРЅРёРјСѓРј [gb] Р“Р± СЃРІРѕР±РѕРґРЅРѕРіРѕ РґРёСЃРєРѕРІРѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°.
+DiskSpaceMBLabel=РўСЂРµР±СѓРµС‚СЃСЏ РјРёРЅРёРјСѓРј [mb] РњР± СЃРІРѕР±РѕРґРЅРѕРіРѕ РґРёСЃРєРѕРІРѕРіРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІР°.
 
 [CustomMessages]
-AppName=Модпак PYmods
-ForWOT=для World of Tanks %1
-UninstallProgram=Удалить %1
+AppName=РњРѕРґРїР°Рє PYmods
+ForWOT=РґР»СЏ World of Tanks %1
+UninstallProgram=РЈРґР°Р»РёС‚СЊ %1
