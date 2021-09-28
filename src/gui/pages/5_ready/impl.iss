@@ -62,6 +62,9 @@ var
  S, S1: string;
  Extracted: Boolean;
  ResultCode: Integer;
+ temp: string;
+ temps: TStrings;
+ i: Integer;
 begin
  Exec('taskkill', '/IM WorldOfTanks.exe', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
  S := '';
@@ -76,6 +79,13 @@ begin
       RegQueryStringValue(HKCU, '{#UninstallReg}', 'QuietUninstallString', S) then begin
     Extracted := RegQueryStringValue(HKLM, '{#UninstallReg}', 'InstallLocation', S1) or
       RegQueryStringValue(HKCU, '{#UninstallReg}', 'InstallLocation', S1);
+    S := S + ' /UPGRADE';
+    temps := StrSplit(WizardSelectedComponents(False), ',');
+    for i := 0 to temps.Count - 1 do begin
+     temp := temps[i];
+     StringChangeEx(temp, '\', '_', True);
+     S := S + ' /Comp_' + temp;
+    end;
     Exec('>', S, '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
     if Extracted then begin
      repeat

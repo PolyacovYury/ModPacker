@@ -1,6 +1,5 @@
 ﻿[Code]
 // https://stackoverflow.com/a/35435534
-
 function CMDCheckParams(const Value: string): Boolean;
 var
   I: Integer;  

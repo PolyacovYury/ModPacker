@@ -1,4 +1,5 @@
 ﻿#include "user32.iss"
+#include "split_string.iss"
 #include "check_cmd_param.iss"
 #include "check_wot_running.iss"
 #include "files_exist.iss"
