@@ -1,8 +1,0 @@
-﻿[en.name]
-PYmodsCore
-[en.desc]
-Common functions for various mods by Polyacov_Yury
-[ru.name]
-Ядро для модов (PYmodsCore)
-[ru.desc]
-Общие функции для различных модов от Polyacov_Yury

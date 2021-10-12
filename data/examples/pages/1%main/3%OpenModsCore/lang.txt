@@ -1,0 +1,8 @@
+﻿[en.name]
+OpenModsCore
+[en.desc]
+Common functions for various mods.
+[ru.name]
+Ядро для модов (OpenModsCore)
+[ru.desc]
+Общие функции для различных модов.

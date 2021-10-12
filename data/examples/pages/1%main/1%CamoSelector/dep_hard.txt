@@ -1,1 +1,1 @@
-main/PYmodsCore
+main/OpenModsCore
