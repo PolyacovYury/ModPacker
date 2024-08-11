@@ -3,10 +3,6 @@
 [CustomMessages]
 en.applicationNotFound=Required World of Tanks files not found in the chosen directory.
 ru.applicationNotFound=Необходимые файлы World of Tanks не найдены в выбранной папке.
-en.applicationWrongDir=Selected install directory%nis not a World of Tanks client root directory.%n%nPlease, select a World of Tanks root directory%n(contains folders like "mods" and "res_mods").
-ru.applicationWrongDir=Выбранная папка установки не является%nкорневой папкой клиента игры World of Tanks.%n%nПожалуйста, выберите корневую папку World of Tanks%n(содержит такие папки, как "mods" и "res_mods").
-en.applicationIncompleteType=Game client installation/update must be finished before continuing this Setup.
-ru.applicationIncompleteType=Необходимо завершить установку/обновление клиента, прежде чем продолжить установку.
 en.applicationPatchIncompatible=Incompatible game client version: %s%nThis Setup requires version {code:GameVersion}.
 ru.applicationPatchIncompatible=Неподходящая версия установленного клиента: %s%nСборка предназначена для патча {code:GameVersion}.
 
@@ -19,47 +15,14 @@ Source: "data\img\gui\pages\3_selectDir\directory.png"; DestDir: "data\img\gui\p
 [Code]
 Var
  SelectDirPageImg, CBCleanProfile: Longint;
- FindWOTBuff: String;
- DirWOTList: TComboBox;
+ SelectedWOTVersion: String;
+ SelectedWOTIdx: Integer;
+ IsWizardInitStarted: Boolean;
+ DirWOTList: TNewComboBox;
  DirBrowseButton: TButton;
  DirBgShape1: TBevel;
  FAQRTFViewer: TRichEditViewer;
  FAQRTFStr: AnsiString;
-
-Procedure UpdateDirWOTList();
-var
- ClientsCount, Index, ListIndex: Integer;
- Str, Realm: String;
-begin
- ListIndex := DirWOTList.ItemIndex;
- ClientsCount := WOT_GetClientsCount();
- DirWOTList.Items.Clear();
- if ClientsCount > 0 then begin
-  for Index := 0 to ClientsCount - 1 do begin
-   WOT_GetClientVersionW(FindWOTBuff, 1024, Index);
-   Str := Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff));  // `1.25.0.0#0`
-   Insert('v.', Str, 0);  // `v.1.25.0.0#0`
-   Insert(' ', Str, 0);  // ` v.1.25.0.0#0`
-
-   case WOT_GetClientBranch(Index) of  // `Release v.1.25.0.0#0`
-    1: Insert('Release', Str, 0);
-    2: Insert('Common Test', Str, 0);
-    3: Insert('Super Test', Str, 0);
-    4: Insert('Sandbox', Str, 0);
-   end;
-   Insert(' ', Str, 0);  // ` Release v.1.25.0.0#0`
-
-   WOT_GetClientPathW(FindWOTBuff, 1024, Index);
-   XMLFileReadValue(Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff) - 1) + '\version.xml', 'version.xml\meta\realm', Realm);
-   Insert(Realm, Str, 0);  // `EU Release v.1.25.0.0#0`
-   Insert(': ', Str, Pos(#0, Str));  // `EU Release v.1.25.0.0: #0`
-   Insert(Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff) - 1), Str, Pos(#0, Str));  // `EU Release v.1.25.0.0: E:\Games\WoT_EU\#0`
-   DirWOTList.Items.Add(Str);
-  end;
- end;
- DirWOTList.Items.Add(SetupMessage(msgWizardSelectDir));
- DirWOTList.ItemIndex := ListIndex;
-end;
 
 Procedure WOTListAddClient(ClientPath: String);
 var
@@ -71,8 +34,7 @@ begin
  end;
  Index := WOT_AddClientW(ClientPath);
  if Index >= 0 then begin
-  UpdateDirWOTList();
-  DirWOTList.ItemIndex := Index;
+  WotList_AddClient(DirWOTList, ClientPath);
  end else begin
   MsgBox(CustomMessage('applicationNotFound'), mbError, MB_OK);
   if DirWOTList.Items.Strings[0] <> SetupMessage(msgWizardSelectDir) then
@@ -85,26 +47,26 @@ var
  UnicodeStr: string;
 begin
  if (
-   (Sender = DirBrowseButton)
-   or ((Sender = DirWOTList) and (DirWOTList.ItemIndex = (DirWotList.Items.Count - 1)))
+   (Sender = DirBrowseButton) or (Sender = DirWOTList)
  ) then begin
-  WizardForm.DirBrowseButton.OnClick(WizardForm.DirBrowseButton);
-  WOTListAddClient(WizardForm.DirEdit.Text);
+  WotList_OnChange(DirWOTList);
  end;
- WOT_GetClientPathW(FindWOTBuff, 1024, DirWOTList.ItemIndex);
- WizardForm.DirEdit.Text := FindWOTBuff;
  UnicodeStr := String(FAQRTFStr);
  StringChangeEx(UnicodeStr, '{code:GameVersion}', ExpandConstant('{code:GameVersion}'), True);
  StringChangeEx(UnicodeStr, '{WOT_dir_basename}', ExtractFileName(WizardDirValue()), True);
  FAQRTFViewer.RTFText := AnsiString(UnicodeStr);
+ if not WotList_Selected_VersionMatch(DirWOTList, ExpandConstant('{code:GameVersion}')) then
+  MsgBox(ExpandConstant(Format(
+   CustomMessage('applicationPatchIncompatible'), [WOT_GetClientVersionW(DirWOTList.ItemIndex)]
+  )), mbError, MB_OK);
 end;
 
 <event('CurPageChanged')>
 Procedure SelectDirPageOnActivate(PageID: Integer);
 begin
  if PageID <> wpSelectDir then Exit;
- SetLength(FindWOTBuff, 1024);
- UpdateDirWOTList();
+ WOT_LauncherSetDefault(4);
+ WotList_Update(DirWOTList);
  WOTListAddClient(WizardForm.DirEdit.Text);
  if DirWOTList.ItemIndex = -1 then
   DirWOTList.ItemIndex := 0;
@@ -113,33 +75,23 @@ end;
 
 <event('NextButtonClick')>
 Function SelectDirPageOnNextButtonClick(PageID: Integer): Boolean;
-var
- PatchVersion, AppType: String;
 begin
  Result := True;
  if PageID <> wpSelectDir then Exit;
- if CMDCheckParams(CMD_NoSearchGameFiles) then Exit;
- if not (
-   FileExists(WizardDirValue() + '\WorldOfTanks.exe')
-   and FileExists(WizardDirValue() + '\version.xml')
-   and FileExists(WizardDirValue() + '\app_type.xml')
- ) then begin
-  MsgBox(CustomMessage('applicationWrongDir'), mbError, MB_OK);
-  Result := False;
- end else begin
-  XMLFileReadValue(WizardDirValue() + '\app_type.xml', 'protocol\app_type', AppType);
-  Result := AppType <> 'incomplete';
-  if not Result then
-   MsgBox(CustomMessage('applicationIncompleteType'), mbError, MB_OK)
-  else begin
-   XMLFileReadValue(WizardDirValue() + '\version.xml', 'version.xml\version', PatchVersion);
-   Delete(PatchVersion, Pos('v', PatchVersion), 2);
-   Delete(PatchVersion, Pos('#', PatchVersion) - 1, 10);
-   Result := PatchVersion = ExpandConstant('{code:GameVersion}');
-   if not Result then
-    MsgBox(ExpandConstant(Format(CustomMessage('applicationPatchIncompatible'), [PatchVersion])), mbError, MB_OK);
-  end;
- end;
+ Result := WotList_Selected_VersionMatch(DirWOTList, ExpandConstant('{code:GameVersion}'));
+ if not Result then
+  MsgBox(ExpandConstant(Format(
+   CustomMessage('applicationPatchIncompatible'), [WOT_GetClientVersionW(DirWOTList.ItemIndex)]
+  )), mbError, MB_OK);
+
+ Result := Result and CheckForGameRun(DirWOTList);
+end;
+
+<event('PrepareToInstall')>
+function _CheckForWot__PrepareToInstall(var NeedsRestart: Boolean): String;
+begin
+ if not CheckForGameRun(DirWOTList) then
+   Result := CustomMessage('AccessDenied');
 end;
 
 <event('InitializeWizard')>
@@ -182,8 +134,7 @@ begin
   Top := ScaleY(8 + 12);
  end;
 
-//FindWOT
- DirWOTList := TComboBox.Create(WizardForm.SelectDirPage);
+ DirWOTList := TNewComboBox.Create(WizardForm.SelectDirPage);
  with DirWOTList do begin
   Parent := WizardForm.SelectDirPage;
   SetBounds(
@@ -207,7 +158,6 @@ begin
   OnClick := @WOTListOnChange;
  end;
  WizardForm.DirBrowseButton.Visible := False;
-//FindWOT end
 
  WizardForm.SelectDirBrowseLabel.Caption := CustomMessage('cleanProfileButtonText');
  CBCleanProfile := CheckBoxCreate(
@@ -252,4 +202,29 @@ begin
   Height := WizardForm.InnerNotebook.Height - Top;
  end;
  ImgApplyChanges(WizardForm.SelectDirPage.Handle);
+ IsWizardInitStarted := True;
+end;
+
+Function GameVersion(Param: String): String;
+var
+ Realm: String;
+ WOTIdx: Integer;
+begin
+ Result := SelectedWOTVersion;
+ if IsWizardInitStarted and (DirWOTList.ItemIndex >= 0) then
+  WOTIdx := DirWOTList.ItemIndex
+ else
+  WOTIdx := -1;
+ if SelectedWOTIdx = WOTIdx then
+  Exit;
+ SelectedWOTIdx := WOTIdx;
+ if WOTIdx >= 0 then
+  Realm := AnsiLowercase(WOT_GetClientRealmW(WOTIdx))
+ else
+  Realm := ActiveLanguage();
+ if Realm = 'ru' then
+  Result := '{#GameVersionRu}'
+ else
+  Result := '{#GameVersion}';
+ SelectedWOTVersion := Result;
 end;

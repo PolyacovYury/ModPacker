@@ -6,6 +6,7 @@
 * [VCL-Styles](https://github.com/RRUZ/vcl-styles-plugins)
 * [Bass](http://www.un4seen.com/)
 * [iCatalyst](https://github.com/lorents17/iCatalyst)
+* [OpenWG.Utils](https://koreanrandom.com/forum/topic/80506-)
 
 **Использование**:
 1. Удостовериться, что Inno Setup версии 6.2+ и Python 3.6+ установлены в системе.
