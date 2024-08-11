@@ -3,7 +3,8 @@
 #define AppVersion "1.0.0"
 #define AppPublisher "Polyacov_Yury"
 #define AppURL ""
-#define GameVersion "1.14.0.0"
+#define GameVersion "1.25.0.0"
+#define GameVersionRu "1.28.0.0"
 #define InstallerName "PYmodsInstaller"
 #define UninstallDirName "PYmods_uninstall"
 

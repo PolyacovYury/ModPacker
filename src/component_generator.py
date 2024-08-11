@@ -191,7 +191,7 @@ def main():
             f.write('[Files]\n')
         for f_path in mod_dirs:
             component = make_component(f_path.parts[2:-1])
-            f.write(f'Source: "{f_path}\\*"; DestDir: "{{app}}\\mods\\{{#GameVersion}}"; Components: {component}')
+            f.write(f'Source: "{f_path}\\*"; DestDir: "{{app}}\\mods\\{{code:GameVersion}}"; Components: {component}')
             flags_data = def_mod_flags.copy()
             flags_data.update(mod_file_flags.get(component, {}))
             if any(flags_data.values()):

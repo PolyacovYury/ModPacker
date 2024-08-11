@@ -2,7 +2,7 @@
 AppId="{{#AppId}"
 AppName={cm:AppName}
 AppVersion={#AppVersion}
-AppVerName={cm:AppName} {cm:ForWOT,{#GameVersion}}
+AppVerName={cm:AppName} {cm:ForWOT,{code:GameVersion}}
 AppPublisher={#AppPublisher}
 VersionInfoVersion={#GameVersion}
 DefaultGroupName={#SetupSetting("AppName")}
@@ -41,12 +41,6 @@ SolidCompression=true
 //====={ Разное }=====\\
 PrivilegesRequired=lowest
 CreateUninstallRegKey=yes
-
-[Code]
-Const
- CMD_NoSearchGameFiles = '/NOSEARCHGAMEFILES';
- CMD_NoCheckForMutex = '/NOCHECKFORMUTEX';
- CMD_NoCheckForRun = '/NOCHECKFORRUN';
 
 // This block is necessary, otherwise the installer does not restore components upon reinstall
 [Types]

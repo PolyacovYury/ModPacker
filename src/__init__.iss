@@ -1,9 +1,9 @@
 ﻿#define UninstallReg "Software\Microsoft\Windows\CurrentVersion\Uninstall\" + AppId + "_is1"
 #define UninstallPathReg "Inno Setup: App Path"
 
-#include "setup.iss"
-#include "languages.iss"
 #include "utils\__init__.iss"
+#include "languages.iss"
+#include "setup.iss"
 [Code]
 Procedure InitializeWizard();
 begin

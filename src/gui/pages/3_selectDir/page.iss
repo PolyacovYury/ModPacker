@@ -7,8 +7,8 @@ en.applicationWrongDir=Selected install directory%nis not a World of Tanks clien
 ru.applicationWrongDir=Выбранная папка установки не является%nкорневой папкой клиента игры World of Tanks.%n%nПожалуйста, выберите корневую папку World of Tanks%n(содержит такие папки, как "mods" и "res_mods").
 en.applicationIncompleteType=Game client installation/update must be finished before continuing this Setup.
 ru.applicationIncompleteType=Необходимо завершить установку/обновление клиента, прежде чем продолжить установку.
-en.applicationPatchIncompatible=Incompatible game client version: %s%nThis Setup requires version {#GameVersion}.
-ru.applicationPatchIncompatible=Неподходящая версия установленного клиента: %s%nСборка предназначена для патча {#GameVersion}.
+en.applicationPatchIncompatible=Incompatible game client version: %s%nThis Setup requires version {code:GameVersion}.
+ru.applicationPatchIncompatible=Неподходящая версия установленного клиента: %s%nСборка предназначена для патча {code:GameVersion}.
 
 en.cleanProfileButtonText=Clear game client profile (reset client settings and caches)
 ru.cleanProfileButtonText=Очистить папку профиля игрового клиента (сброс индивидуальных настроек и кэша)
@@ -23,11 +23,13 @@ Var
  DirWOTList: TComboBox;
  DirBrowseButton: TButton;
  DirBgShape1: TBevel;
+ FAQRTFViewer: TRichEditViewer;
+ FAQRTFStr: AnsiString;
 
 Procedure UpdateDirWOTList();
 var
  ClientsCount, Index, ListIndex: Integer;
- Str: String;
+ Str, Realm: String;
 begin
  ListIndex := DirWOTList.ItemIndex;
  ClientsCount := WOT_GetClientsCount();
@@ -35,15 +37,23 @@ begin
  if ClientsCount > 0 then begin
   for Index := 0 to ClientsCount - 1 do begin
    WOT_GetClientVersionW(FindWOTBuff, 1024, Index);
-   Str := Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff));
-   case WOT_GetClientBranch(Index) of
-    1: Insert(' Release: ', Str, Pos(#0, Str));
-    2: Insert(' Common Test: ', Str, Pos(#0, Str));
-    3: Insert(' Super Test: ', Str, Pos(#0, Str));
-    4: Insert(' Sandbox: ', Str, Pos(#0, Str));
+   Str := Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff));  // `1.25.0.0#0`
+   Insert('v.', Str, 0);  // `v.1.25.0.0#0`
+   Insert(' ', Str, 0);  // ` v.1.25.0.0#0`
+
+   case WOT_GetClientBranch(Index) of  // `Release v.1.25.0.0#0`
+    1: Insert('Release', Str, 0);
+    2: Insert('Common Test', Str, 0);
+    3: Insert('Super Test', Str, 0);
+    4: Insert('Sandbox', Str, 0);
    end;
+   Insert(' ', Str, 0);  // ` Release v.1.25.0.0#0`
+
    WOT_GetClientPathW(FindWOTBuff, 1024, Index);
-   Insert(FindWOTBuff, Str, Pos(#0, Str));
+   XMLFileReadValue(Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff) - 1) + '\version.xml', 'version.xml\meta\realm', Realm);
+   Insert(Realm, Str, 0);  // `EU Release v.1.25.0.0#0`
+   Insert(': ', Str, Pos(#0, Str));  // `EU Release v.1.25.0.0: #0`
+   Insert(Copy(FindWOTBuff, 0, Pos(#0, FindWOTBuff) - 1), Str, Pos(#0, Str));  // `EU Release v.1.25.0.0: E:\Games\WoT_EU\#0`
    DirWOTList.Items.Add(Str);
   end;
  end;
@@ -71,6 +81,8 @@ begin
 end;
 
 Procedure WOTListOnChange(Sender: TObject);
+var
+ UnicodeStr: string;
 begin
  if (
    (Sender = DirBrowseButton)
@@ -81,23 +93,22 @@ begin
  end;
  WOT_GetClientPathW(FindWOTBuff, 1024, DirWOTList.ItemIndex);
  WizardForm.DirEdit.Text := FindWOTBuff;
-end;
-
-procedure InitializeFindWOT();
-begin
- SetLength(FindWOTBuff, 1024);
- UpdateDirWOTList();
- WOTListAddClient(WizardForm.DirEdit.Text);
- if DirWOTList.ItemIndex = -1 then
-  DirWOTList.ItemIndex := 0;
- DirWOTList.OnChange(DirWOTList);
+ UnicodeStr := String(FAQRTFStr);
+ StringChangeEx(UnicodeStr, '{code:GameVersion}', ExpandConstant('{code:GameVersion}'), True);
+ StringChangeEx(UnicodeStr, '{WOT_dir_basename}', ExtractFileName(WizardDirValue()), True);
+ FAQRTFViewer.RTFText := AnsiString(UnicodeStr);
 end;
 
 <event('CurPageChanged')>
 Procedure SelectDirPageOnActivate(PageID: Integer);
 begin
  if PageID <> wpSelectDir then Exit;
- InitializeFindWOT();
+ SetLength(FindWOTBuff, 1024);
+ UpdateDirWOTList();
+ WOTListAddClient(WizardForm.DirEdit.Text);
+ if DirWOTList.ItemIndex = -1 then
+  DirWOTList.ItemIndex := 0;
+ DirWOTList.OnChange(DirWOTList);
 end;
 
 <event('NextButtonClick')>
@@ -107,9 +118,7 @@ var
 begin
  Result := True;
  if PageID <> wpSelectDir then Exit;
- if CMDCheckParams(CMD_NoSearchGameFiles) then begin
-  Exit;
- end;
+ if CMDCheckParams(CMD_NoSearchGameFiles) then Exit;
  if not (
    FileExists(WizardDirValue() + '\WorldOfTanks.exe')
    and FileExists(WizardDirValue() + '\version.xml')
@@ -126,9 +135,9 @@ begin
    XMLFileReadValue(WizardDirValue() + '\version.xml', 'version.xml\version', PatchVersion);
    Delete(PatchVersion, Pos('v', PatchVersion), 2);
    Delete(PatchVersion, Pos('#', PatchVersion) - 1, 10);
-   Result := CompareStr(PatchVersion, '{#GameVersion}') = 0;
+   Result := PatchVersion = ExpandConstant('{code:GameVersion}');
    if not Result then
-    MsgBox(Format(CustomMessage('applicationPatchIncompatible'), [PatchVersion]), mbError, MB_OK);
+    MsgBox(ExpandConstant(Format(CustomMessage('applicationPatchIncompatible'), [PatchVersion])), mbError, MB_OK);
   end;
  end;
 end;
@@ -136,7 +145,6 @@ end;
 <event('InitializeWizard')>
 Procedure InitializeSelectDirPage();
 var
- RTFStr: AnsiString;
  DefDir, S: String;
 begin
  DefDir := ExpandConstant('{param:DIR|}');
@@ -226,8 +234,9 @@ begin
 
  if not FileExists(ExpandConstant('{tmp}\' + Format('data\lang\%s\info_before.rtf', [ActiveLanguage()]))) then
   ExtractTemporaryFiles(Format('data\lang\%s\info_before.rtf', [ActiveLanguage()]));
- LoadStringFromFile(ExpandConstant('{tmp}\' + Format('data\lang\%s\info_before.rtf', [ActiveLanguage()])), RTFStr);
- with TRichEditViewer.Create(WizardForm.SelectDirPage) do begin  // WizardForm.InfoBeforeMemo refuses to work properly
+ LoadStringFromFile(ExpandConstant('{tmp}\' + Format('data\lang\%s\info_before.rtf', [ActiveLanguage()])), FAQRTFStr);
+ FAQRTFViewer := TRichEditViewer.Create(WizardForm.SelectDirPage);
+ with FAQRTFViewer do begin  // WizardForm.InfoBeforeMemo refuses to work properly
   Parent := WizardForm.SelectDirPage;
   BorderStyle := bsSingle;
   TabStop := False;
@@ -241,7 +250,6 @@ begin
   Top := DirBgShape1.Top + DirBgShape1.Height + ScaleY(8);
   Width := DirBgShape1.Width;
   Height := WizardForm.InnerNotebook.Height - Top;
-  RTFText := RTFStr;
  end;
  ImgApplyChanges(WizardForm.SelectDirPage.Handle);
 end;

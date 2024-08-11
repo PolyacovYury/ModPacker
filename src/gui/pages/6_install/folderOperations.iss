@@ -39,8 +39,8 @@ begin
    DelTree(WoTAppData + 'web_cache', True, True, True);
    DelTree(WoTAppData + 'wgfm', True, True, True);
   end;
-  SaveStringToFile(ExpandConstant('{app}\res_mods\{#GameVersion}\readme.txt'), 'This folder is used for World of Tanks modifiers (mods).', False);
-  SaveStringToFile(ExpandConstant('{app}\mods\{#GameVersion}\readme.txt'), 'This folder is used for packaged World of Tanks modifiers (*.wotmods).', False);
+  SaveStringToFile(ExpandConstant('{app}\res_mods\{code:GameVersion}\readme.txt'), 'This folder is used for World of Tanks modifiers (mods).', False);
+  SaveStringToFile(ExpandConstant('{app}\mods\{code:GameVersion}\readme.txt'), 'This folder is used for packaged World of Tanks modifiers (*.wotmods).', False);
  except
   MsgBox('{#__FILE__}: {#__LINE__}' + #13#10 + GetExceptionMessage(), mbCriticalError, MB_OK);
  end;

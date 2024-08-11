@@ -8,3 +8,4 @@
 #include "findwot\findwot.iss"
 #include "xml.iss"
 #include "vcl\vcl.iss"
+#include "game_version.iss"
